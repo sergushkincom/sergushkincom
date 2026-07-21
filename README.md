@@ -47,6 +47,6 @@ Microsoft Dynamics AX  →  Apryse  →  indinero (YC)  →  NEXT|HEALTH
 ### Find me
 
 [![Portfolio](https://img.shields.io/badge/sergushkin.com-000?style=flat&logo=safari&logoColor=white)](https://sergushkin.com)
-[![Dribbble](https://img.shields.io/badge/Dribbble-EA4C89?style=flat&logo=dribbble&logoColor=white)](https://dribbble.com/sergushkincom)
+[![Dribbble](https://img.shields.io/badge/Dribbble-EA4C89?style=flat&logo=dribbble&logoColor=white)](dribbble.com/sergushkincom)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://linkedin.com/in/sergushkincom)
 [![X](https://img.shields.io/badge/@sergushkincom-000?style=flat&logo=x&logoColor=white)](https://x.com/sergushkincom)
