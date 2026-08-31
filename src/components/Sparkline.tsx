@@ -25,7 +25,9 @@ export function Sparkline({ modelId, model }: SparklineProps) {
 
   return (
     <div className="px-4">
-      <p className="text-secondary mb-2">Last 24 hours</p>
+      <p className="widget-status-line mb-2" style={{ opacity: 0.7 }}>
+        Last 24 hours
+      </p>
       <svg
         width={w}
         height={h}
@@ -44,8 +46,12 @@ export function Sparkline({ modelId, model }: SparklineProps) {
         />
       </svg>
       <div className="flex justify-between mt-1 px-1">
-        <span className="text-tertiary">24h ago</span>
-        <span className="text-tertiary">Now</span>
+        <span className="widget-status-line" style={{ opacity: 0.45 }}>
+          24h ago
+        </span>
+        <span className="widget-status-line" style={{ opacity: 0.45 }}>
+          Now
+        </span>
       </div>
     </div>
   );

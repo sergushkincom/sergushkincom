@@ -64,7 +64,7 @@ export function getWindowLine(
   const s = status ?? getWindowStatus(window);
   const label = windowLabel(key);
 
-  if (s === "empty") return copy.empty(label, window.resetsInMin);
+  if (s === "empty") return copy.empty(window.resetsInMin);
 
   const minutesLeft = getMinutesUntilEmpty(window);
   if (minutesLeft > window.resetsInMin) {

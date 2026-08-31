@@ -1,65 +1,19 @@
 @import "tailwindcss";
 
-/* ── Light mode tokens ── */
 :root {
-  color-scheme: light dark;
+  color-scheme: dark;
 
-  --widget-label: #1d1d1f;
-  --widget-bg: rgba(255, 255, 255, 0.72);
-  --widget-border: rgba(255, 255, 255, 0.18);
-  --widget-shadow: 0 12px 32px rgba(0, 0, 0, 0.18), 0 2px 6px rgba(0, 0, 0, 0.1);
-  --widget-shadow-lift: 0 20px 48px rgba(0, 0, 0, 0.24), 0 4px 12px rgba(0, 0, 0, 0.14);
+  --menubar-bg: rgba(22, 22, 24, 0.72);
+  --menubar-text: rgba(245, 245, 247, 0.92);
+  --menubar-border: rgba(255, 255, 255, 0.08);
 
-  --tooltip-bg: rgba(255, 255, 255, 0.92);
-  --tooltip-border: rgba(0, 0, 0, 0.08);
-  --tooltip-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --widget-shadow-lift: 0 20px 48px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(0, 0, 0, 0.35);
 
-  --menubar-bg: rgba(255, 255, 255, 0.55);
-  --menubar-text: #1d1d1f;
-  --menubar-border: rgba(0, 0, 0, 0.08);
+  --tooltip-bg: rgba(46, 46, 48, 0.94);
+  --tooltip-border: rgba(255, 255, 255, 0.12);
+  --tooltip-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
 
-  --control-bg: rgba(255, 255, 255, 0.75);
-  --control-selected: rgba(255, 255, 255, 0.95);
-  --control-border: rgba(0, 0, 0, 0.08);
-  --control-text: #1d1d1f;
-  --control-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.08);
-
-  --focus-ring: #007aff;
-  --chart-bar-opacity-min: 0.2;
-  --chart-bar-opacity-max: 0.7;
-  --secondary-opacity: 0.6;
-  --tertiary-opacity: 0.4;
-}
-
-/* ── Dark mode tokens ── */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --widget-label: #f5f5f7;
-    --widget-bg: rgba(28, 28, 30, 0.72);
-    --widget-border: rgba(255, 255, 255, 0.12);
-    --widget-shadow: 0 12px 40px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.35);
-    --widget-shadow-lift: 0 24px 56px rgba(0, 0, 0, 0.65), 0 6px 16px rgba(0, 0, 0, 0.4);
-
-    --tooltip-bg: rgba(44, 44, 46, 0.94);
-    --tooltip-border: rgba(255, 255, 255, 0.1);
-    --tooltip-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
-
-    --menubar-bg: rgba(22, 22, 24, 0.72);
-    --menubar-text: rgba(245, 245, 247, 0.92);
-    --menubar-border: rgba(255, 255, 255, 0.08);
-
-    --control-bg: rgba(44, 44, 46, 0.82);
-    --control-selected: rgba(72, 72, 74, 0.95);
-    --control-border: rgba(255, 255, 255, 0.1);
-    --control-text: #f5f5f7;
-    --control-shadow: 0 4px 20px rgba(0, 0, 0, 0.45), 0 1px 4px rgba(0, 0, 0, 0.3);
-
-    --focus-ring: #0a84ff;
-    --chart-bar-opacity-min: 0.15;
-    --chart-bar-opacity-max: 0.55;
-    --secondary-opacity: 0.55;
-    --tertiary-opacity: 0.35;
-  }
+  --focus-ring: #0a84ff;
 }
 
 html,
@@ -72,32 +26,70 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.text-primary-num {
-  font-size: 22px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+/* ── Widget material ── */
+.widget-surface {
+  background: rgba(30, 30, 32, 0.42);
+  backdrop-filter: blur(50px) saturate(190%);
+  -webkit-backdrop-filter: blur(50px) saturate(190%);
+  border: 0.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 16px;
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.35),
+    inset 0 0.5px 0 rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.92);
 }
 
-.text-secondary {
+.widget-surface--lift {
+  box-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.5),
+    0 4px 12px rgba(0, 0, 0, 0.35),
+    inset 0 0.5px 0 rgba(255, 255, 255, 0.14);
+}
+
+.widget-model-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.widget-status-line {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.52);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.widget-percentage {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.52);
+}
+
+.widget-tier {
   font-size: 11px;
   font-weight: 400;
-  opacity: var(--secondary-opacity);
-  color: var(--widget-label);
+  color: rgba(255, 255, 255, 0.45);
 }
 
-.text-tertiary {
-  font-size: 10px;
+.widget-effort-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.widget-advisory {
+  font-size: 11px;
   font-weight: 400;
-  opacity: var(--tertiary-opacity);
-  color: var(--widget-label);
+  color: rgba(255, 255, 255, 0.45);
 }
 
-.widget-surface {
-  background: var(--widget-bg);
-  backdrop-filter: blur(30px) saturate(180%);
-  -webkit-backdrop-filter: blur(30px) saturate(180%);
-  box-shadow: inset 0 0 0 1px var(--widget-border);
-  color: var(--widget-label);
+.widget-divider {
+  height: 0.5px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 0;
 }
 
 .focus-ring:focus-visible {
@@ -192,7 +184,6 @@ body {
   background-repeat: repeat;
 }
 
-/* Colour-field drift — max 3% per axis, desynced cycles */
 @keyframes wallpaper-drift-indigo {
   0% {
     transform: translate(-50%, -50%) translate(0%, 0%);

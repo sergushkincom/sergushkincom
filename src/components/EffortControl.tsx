@@ -12,16 +12,15 @@ type EffortControlProps = {
 export function EffortControl({ value, onChange }: EffortControlProps) {
   return (
     <div
-      className="flex items-center gap-2 px-4"
+      className="flex h-6 items-center justify-between gap-3"
       data-no-drag
       role="group"
       aria-label={copy.effortLabel}
     >
-      <span className="shrink-0 text-[11px] font-normal opacity-60">
-        {copy.effortLabel}
-      </span>
+      <span className="widget-effort-label shrink-0">{copy.effortLabel}</span>
       <div
-        className="flex flex-1 rounded-md p-0.5"
+        className="flex h-6 items-center rounded-[7px] p-0.5"
+        style={{ background: "rgba(255, 255, 255, 0.08)" }}
         role="radiogroup"
         aria-label={copy.effortLabel}
       >
@@ -35,12 +34,10 @@ export function EffortControl({ value, onChange }: EffortControlProps) {
               aria-checked={selected}
               data-no-drag
               onClick={() => onChange(opt)}
-              className="focus-ring flex-1 rounded px-2 text-[11px] font-medium outline-none transition-colors duration-[400ms]"
+              className="focus-ring h-[22px] rounded-[6px] px-2 text-[11px] font-normal outline-none transition-[background] duration-150 ease-out"
               style={{
-                height: 24,
-                background: selected
-                  ? "rgba(255, 255, 255, 0.22)"
-                  : "rgba(255, 255, 255, 0.10)",
+                background: selected ? "rgba(255, 255, 255, 0.20)" : "transparent",
+                color: "rgba(255, 255, 255, 0.92)",
               }}
             >
               {opt}

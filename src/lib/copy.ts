@@ -21,8 +21,7 @@ export const copy = {
     `${window} · resets in ${formatMinutes(resetsInMin)}`,
   tight: (window: WindowLabel, gapMin: number) =>
     `${window} · runs out ~${formatMinutes(gapMin)} early`,
-  empty: (window: WindowLabel, resetsInMin: number) =>
-    `${window} · limit reached · resets in ${formatMinutes(resetsInMin)}`,
+  empty: (resetsInMin: number) => `Limit reached · ${formatMinutes(resetsInMin)}`,
   advisory: "Medium effort would last past the reset.",
   effortLabel: "Effort",
   windowShort: {

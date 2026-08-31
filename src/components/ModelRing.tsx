@@ -14,32 +14,34 @@ import {
 import { formatPercent } from "@/lib/format";
 import { useTweenedValue } from "@/hooks/useTweenedValue";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { ModelMark } from "./ModelMark";
 
 type ModelRingProps = {
   model: Model;
-  size?: number;
+  diameter?: number;
   onSelect?: () => void;
-  compact?: boolean;
   selected?: boolean;
   /** Small widget: only the binding window ring */
   bindingOnly?: boolean;
+  /** Hide mark and percentage (large row compact) */
+  minimal?: boolean;
 };
 
-const RING_SIZE = 56;
-const OUTER_STROKE = 4;
-const INNER_STROKE = 2.5;
+export const RING_DIAMETER = 56;
+const OUTER_STROKE = 7;
+const INNER_STROKE = 3;
 const RING_GAP = 6;
+const TRACK = "rgba(255, 255, 255, 0.16)";
 
 export function ModelRing({
   model,
-  size = RING_SIZE,
+  diameter = RING_DIAMETER,
   onSelect,
-  compact = false,
   selected = false,
   bindingOnly = false,
+  minimal = false,
 }: ModelRingProps) {
   const [hovered, setHovered] = useState(false);
-  const [focused, setFocused] = useState(false);
   const tooltipId = useId();
   const reducedMotion = useReducedMotion();
 
@@ -50,99 +52,95 @@ export function ModelRing({
   const tweenedWeekly = useTweenedValue(model.weekly.used);
   const tweenedBinding = useTweenedValue(bindingWindow.used);
 
-  const bindingStatus = getWindowStatus(bindingWindow);
+  const scale = diameter / RING_DIAMETER;
+  const outerStroke = OUTER_STROKE * scale;
+  const innerStroke = INNER_STROKE * scale;
+  const gap = RING_GAP * scale;
 
   const transitionRing = reducedMotion
     ? "none"
-    : "stroke-dashoffset 400ms ease-out, stroke-width 120ms ease, stroke 600ms ease";
+    : "stroke-dasharray 400ms ease-out, stroke 600ms ease";
 
   const interactive = Boolean(onSelect);
-  const activeOuterStroke = hovered || focused ? OUTER_STROKE + 1 : OUTER_STROKE;
-  const activeInnerStroke = hovered || focused ? INNER_STROKE + 0.5 : INNER_STROKE;
 
   function ringColor(key: WindowKey): string {
-    if (bindingOnly) return STATUS_COLORS[bindingStatus];
+    if (bindingOnly) return STATUS_COLORS[getWindowStatus(bindingWindow)];
     return key === binding
       ? STATUS_COLORS[getWindowStatus(getWindow(model, key))]
       : NEUTRAL_RING;
   }
 
-  function drawRing(
-    r: number,
-    stroke: number,
-    used: number,
-    color: string,
-    trackOpacity = 0.12
-  ) {
+  function arcLength(used: number, r: number): string {
     const circ = 2 * Math.PI * r;
-    const offset = circ * (1 - Math.min(used, 1));
+    const filled = circ * Math.min(Math.max(used, 0), 1);
+    return `${filled} ${circ}`;
+  }
+
+  function drawRing(r: number, stroke: number, used: number, color: string) {
+    const cx = diameter / 2;
+    const cy = diameter / 2;
+
     return (
-      <>
+      <g key={`${r}-${stroke}`}>
         <circle
-          cx={size / 2}
-          cy={size / 2}
+          cx={cx}
+          cy={cy}
           r={r}
           fill="none"
-          stroke="currentColor"
+          stroke={TRACK}
           strokeWidth={stroke}
           strokeLinecap="round"
-          className="text-[var(--widget-label)]"
-          opacity={trackOpacity}
         />
         <circle
-          cx={size / 2}
-          cy={size / 2}
+          cx={cx}
+          cy={cy}
           r={r}
           fill="none"
           stroke={color}
           strokeWidth={stroke}
           strokeLinecap="round"
-          strokeDasharray={circ}
-          strokeDashoffset={offset}
+          strokeDasharray={arcLength(used, r)}
           style={{ transition: transitionRing }}
         />
-      </>
+      </g>
     );
   }
 
-  const outerR = (size - OUTER_STROKE) / 2;
-  const innerR = outerR - OUTER_STROKE / 2 - RING_GAP - INNER_STROKE / 2;
+  const outerR = (diameter - outerStroke) / 2;
+  const innerR = outerR - outerStroke / 2 - gap - innerStroke / 2;
 
-  const ringContent = (
+  const displayUsed = bindingOnly
+    ? tweenedBinding
+    : binding === "session"
+      ? tweenedSession
+      : tweenedWeekly;
+
+  const ringSvg = (
     <svg
-      width={size}
-      height={size}
-      viewBox={`0 0 ${size} ${size}`}
-      className="-rotate-90"
+      width={diameter}
+      height={diameter}
+      viewBox={`0 0 ${diameter} ${diameter}`}
+      className="block -rotate-90"
       aria-hidden="true"
     >
       {bindingOnly ? (
         drawRing(
           outerR,
-          activeOuterStroke,
+          outerStroke,
           tweenedBinding,
-          STATUS_COLORS[bindingStatus]
+          STATUS_COLORS[getWindowStatus(bindingWindow)]
         )
       ) : (
         <>
-          {drawRing(
-            outerR,
-            activeOuterStroke,
-            tweenedSession,
-            ringColor("session")
-          )}
-          {innerR > 0 &&
-            drawRing(
-              innerR,
-              activeInnerStroke,
-              tweenedWeekly,
-              ringColor("weekly"),
-              0.08
-            )}
+          {drawRing(outerR, outerStroke, tweenedSession, ringColor("session"))}
+          {innerR > innerStroke &&
+            drawRing(innerR, innerStroke, tweenedWeekly, ringColor("weekly"))}
         </>
       )}
     </svg>
   );
+
+  const markSize = 22 * scale;
 
   return (
     <div
@@ -154,15 +152,14 @@ export function ModelRing({
         <button
           type="button"
           data-no-drag
-          className={`focus-ring relative flex items-center justify-center rounded-full outline-none transition-transform duration-[120ms] ${
-            selected ? "ring-1 ring-[var(--widget-label)] ring-opacity-20" : ""
+          className={`focus-ring relative flex flex-col items-center outline-none ${
+            selected ? "opacity-100" : ""
           }`}
-          style={{ width: size, height: size }}
           aria-label={getAriaLabel(model)}
           aria-describedby={hovered ? tooltipId : undefined}
           aria-pressed={selected}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
+          onFocus={() => setHovered(true)}
+          onBlur={() => setHovered(false)}
           onClick={onSelect}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
@@ -171,20 +168,39 @@ export function ModelRing({
             }
           }}
         >
-          {ringContent}
-          {!compact && bindingOnly && (
-            <span className="absolute text-[11px] font-normal leading-none opacity-60">
-              {formatPercent(bindingWindow.used)}
+          <div className="relative" style={{ width: diameter, height: diameter }}>
+            {ringSvg}
+            {!minimal && (
+              <div className="absolute inset-0 flex items-center justify-center rotate-0">
+                <ModelMark id={model.id} size={markSize} />
+              </div>
+            )}
+          </div>
+          {!minimal && (
+            <span className="widget-percentage mt-1 leading-none">
+              {formatPercent(
+                bindingOnly
+                  ? bindingWindow.used
+                  : getWindow(model, getBindingWindow(model)).used
+              )}
             </span>
           )}
         </button>
       ) : (
-        <div
-          className="relative flex items-center justify-center"
-          style={{ width: size, height: size }}
-          aria-hidden="true"
-        >
-          {ringContent}
+        <div className="relative flex flex-col items-center">
+          <div className="relative" style={{ width: diameter, height: diameter }}>
+            {ringSvg}
+            {!minimal && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <ModelMark id={model.id} size={markSize} />
+              </div>
+            )}
+          </div>
+          {!minimal && (
+            <span className="widget-percentage mt-1 leading-none">
+              {formatPercent(displayUsed)}
+            </span>
+          )}
         </div>
       )}
 
@@ -192,17 +208,15 @@ export function ModelRing({
         <div
           id={tooltipId}
           role="tooltip"
-          className="absolute top-full z-50 mt-2 whitespace-nowrap rounded-lg px-3 py-2 text-[11px] font-normal transition-opacity duration-[120ms]"
+          className="absolute top-full z-50 mt-2 whitespace-nowrap rounded-lg px-3 py-2 text-[11px] font-normal"
           style={{
             background: "var(--tooltip-bg)",
-            color: "var(--widget-label)",
+            color: "rgba(255,255,255,0.92)",
             border: "1px solid var(--tooltip-border)",
             boxShadow: "var(--tooltip-shadow)",
           }}
         >
-          <div>
-            <span className="font-medium">{model.name}</span>
-          </div>
+          <div className="font-medium">{model.name}</div>
           <div className="mt-0.5 opacity-80">
             Session {formatPercent(model.session.used)} ·{" "}
             {getWindowLine("session", model.session)}
@@ -217,4 +231,4 @@ export function ModelRing({
   );
 }
 
-export { RING_SIZE };
+export { RING_DIAMETER as RING_SIZE };

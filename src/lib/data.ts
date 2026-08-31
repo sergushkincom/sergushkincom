@@ -34,7 +34,7 @@ export type Scenario =
   | "idle"
   | "working"
   | "burning-fast"
-  | "weekly-wall";
+  | "limit-reached";
 
 export type WidgetSize = "small" | "medium" | "large";
 
@@ -168,27 +168,31 @@ export const SCENARIO_CONFIG: Record<
     burnMultiplier: 1,
     effort: "High",
   },
-  "weekly-wall": {
-    label: "Weekly wall",
-    models: cloneModels(BASE_MODELS).map((m) =>
-      m.id === "opus"
-        ? {
-            ...m,
-            session: { ...m.session, used: 0.22, resetsInMin: 51 },
-            weekly: { ...m.weekly, used: 0.94, resetsInMin: 5760 },
-          }
-        : m.id === "sonnet"
-          ? {
-              ...m,
-              session: { ...m.session, used: 0.18, resetsInMin: 184 },
-              weekly: { ...m.weekly, used: 0.88, resetsInMin: 5040 },
-            }
-          : {
-              ...m,
-              session: { ...m.session, used: 0.35, resetsInMin: 96 },
-              weekly: { ...m.weekly, used: 0.91, resetsInMin: 4320 },
-            }
-    ),
+  "limit-reached": {
+    label: "Limit reached",
+    models: [
+      {
+        id: "opus",
+        name: "Opus 5",
+        tier: "For complex tasks",
+        session: { used: 1.0, resetsInMin: 28, baseBurnPerMin: 0.0030 },
+        weekly: { used: 0.62, resetsInMin: 4380, baseBurnPerMin: 0.0030 },
+      },
+      {
+        id: "sonnet",
+        name: "Sonnet 5",
+        tier: "Most efficient for everyday tasks",
+        session: { used: 0.89, resetsInMin: 95, baseBurnPerMin: 0.0009 },
+        weekly: { used: 0.45, resetsInMin: 4380, baseBurnPerMin: 0.0009 },
+      },
+      {
+        id: "haiku",
+        name: "Haiku 4.5",
+        tier: "Fastest for quick answers",
+        session: { used: 0.97, resetsInMin: 41, baseBurnPerMin: 0.0004 },
+        weekly: { used: 0.38, resetsInMin: 4380, baseBurnPerMin: 0.0004 },
+      },
+    ],
     simulating: false,
     burnMultiplier: 0,
     effort: "Medium",

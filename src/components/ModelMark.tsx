@@ -2,15 +2,17 @@ import type { ModelId } from "@/lib/data";
 
 type ModelMarkProps = {
   id: ModelId;
+  size?: number;
   className?: string;
 };
 
 /** Concentric arcs — density expresses the model ladder (3 / 2 / 1). */
-export function ModelMark({ id, className = "" }: ModelMarkProps) {
-  const stroke = "currentColor";
+export function ModelMark({ id, size = 22, className = "" }: ModelMarkProps) {
+  const stroke = "rgba(255, 255, 255, 0.85)";
   const sw = 1.5;
-  const cx = 9;
-  const cy = 13;
+  const scale = size / 18;
+  const cx = 9 * scale;
+  const cy = 13 * scale;
 
   const radii: Record<ModelId, number[]> = {
     opus: [4, 6, 8],
@@ -19,16 +21,17 @@ export function ModelMark({ id, className = "" }: ModelMarkProps) {
   };
 
   function arcPath(r: number): string {
-    const x1 = cx - r;
-    const x2 = cx + r;
-    return `M ${x1} ${cy} A ${r} ${r} 0 0 1 ${x2} ${cy}`;
+    const sr = r * scale;
+    const x1 = cx - sr;
+    const x2 = cx + sr;
+    return `M ${x1} ${cy} A ${sr} ${sr} 0 0 1 ${x2} ${cy}`;
   }
 
   return (
     <svg
-      width={18}
-      height={18}
-      viewBox="0 0 18 18"
+      width={size}
+      height={size}
+      viewBox={`0 0 ${size} ${size}`}
       fill="none"
       className={className}
       aria-hidden="true"
@@ -45,6 +48,3 @@ export function ModelMark({ id, className = "" }: ModelMarkProps) {
     </svg>
   );
 }
-
-/** @deprecated Use ModelMark */
-export const ProviderGlyph = ModelMark;

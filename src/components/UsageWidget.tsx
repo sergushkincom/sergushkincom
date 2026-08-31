@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, useRef } from "react";
+import { useEffect, useMemo, useState, useRef, useCallback } from "react";
 import type {
   BaseModel,
   Effort,
@@ -17,12 +17,14 @@ import {
 } from "@/lib/data";
 import { getAdvisoryLine } from "@/lib/provider-status";
 import { useDraggable } from "@/hooks/useDraggable";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { ModelMark } from "./ModelMark";
-import { ModelRing } from "./ModelRing";
+import { ModelRing, RING_DIAMETER } from "./ModelRing";
 import { TimeLine, WindowBreakdown } from "./TimeLine";
 import { EffortControl } from "./EffortControl";
 import { Sparkline } from "./Sparkline";
+import {
+  WidgetContextMenu,
+  type MenuState,
+} from "./WidgetContextMenu";
 
 type UsageWidgetProps = {
   baseModels: BaseModel[];
@@ -30,6 +32,8 @@ type UsageWidgetProps = {
   size: WidgetSize;
   desktopRef: React.RefObject<HTMLElement | null>;
   onEffortChange: (effort: Effort) => void;
+  onSizeChange: (size: WidgetSize) => void;
+  onScenarioChange: (scenario: Scenario) => void;
 };
 
 export function UsageWidget({
@@ -38,11 +42,13 @@ export function UsageWidget({
   size,
   desktopRef,
   onEffortChange,
+  onSizeChange,
+  onScenarioChange,
 }: UsageWidgetProps) {
   const dims = WIDGET_DIMENSIONS[size];
-  const reducedMotion = useReducedMotion();
   const [effort, setEffort] = useState<Effort>("Medium");
   const [selectedId, setSelectedId] = useState<ModelId>("opus");
+  const [menu, setMenu] = useState<MenuState>(null);
   const widgetRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -71,61 +77,75 @@ export function UsageWidget({
     dims
   );
 
-  const shadow = dragging ? "var(--widget-shadow-lift)" : "var(--widget-shadow)";
-  const transform = dragging && !reducedMotion ? "scale(1.02)" : "scale(1)";
+  const closeMenu = useCallback(() => setMenu(null), []);
+
+  const handleContextMenu = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setMenu({ x: e.clientX, y: e.clientY });
+  }, []);
 
   return (
-    <div
-      ref={widgetRef}
-      className="absolute touch-none select-none"
-      style={{
-        left: position.x,
-        top: position.y,
-        width: dims.width,
-        height: dims.height,
-        zIndex: dragging ? 50 : 10,
-        transform,
-        transition: reducedMotion ? "none" : "transform 150ms ease, box-shadow 150ms ease",
-      }}
-      {...dragHandlers}
-      role="application"
-      aria-label="AI usage widget"
-    >
+    <>
       <div
-        className="widget-surface flex h-full flex-col overflow-hidden"
-        style={{ borderRadius: dims.radius, boxShadow: shadow }}
+        ref={widgetRef}
+        className="absolute touch-none select-none"
+        style={{
+          left: position.x,
+          top: position.y,
+          width: dims.width,
+          height: dims.height,
+          zIndex: dragging ? 50 : 10,
+        }}
+        onContextMenu={handleContextMenu}
+        {...dragHandlers}
+        role="application"
+        aria-label="AI usage widget"
       >
-        {size === "small" && <SmallFace model={opus} effort={effort} />}
-        {size === "medium" && (
-          <MediumFace models={models} effort={effort} onEffortChange={handleEffortChange} />
-        )}
-        {size === "large" && (
-          <LargeFace
-            models={models}
-            effort={effort}
-            selectedId={selectedId}
-            onSelect={setSelectedId}
-            onEffortChange={handleEffortChange}
-            advisory={advisory}
-          />
-        )}
+        <div
+          className={`widget-surface flex h-full flex-col overflow-hidden ${
+            dragging ? "widget-surface--lift" : ""
+          }`}
+          onPointerDown={(e) => {
+            if (e.button === 0 && menu) closeMenu();
+          }}
+        >
+          {size === "small" && <SmallFace model={opus} effort={effort} />}
+          {size === "medium" && (
+            <MediumFace models={models} effort={effort} onEffortChange={handleEffortChange} />
+          )}
+          {size === "large" && (
+            <LargeFace
+              models={models}
+              effort={effort}
+              selectedId={selectedId}
+              onSelect={setSelectedId}
+              onEffortChange={handleEffortChange}
+              advisory={advisory}
+            />
+          )}
+        </div>
       </div>
-    </div>
+
+      <WidgetContextMenu
+        open={menu}
+        size={size}
+        scenario={scenario}
+        onClose={closeMenu}
+        onSizeChange={onSizeChange}
+        onScenarioChange={onScenarioChange}
+      />
+    </>
   );
 }
 
 function SmallFace({ model, effort }: { model: Model; effort: Effort }) {
   return (
-    <div className="relative flex h-full flex-col items-center justify-center px-3 py-3 gap-1">
-      <ModelRing model={model} size={68} compact bindingOnly onSelect={() => undefined} />
-      <div className="flex items-center gap-1.5 mt-0.5">
-        <ModelMark id={model.id} className="opacity-70" />
-        <span className="text-[13px] font-medium">{model.name}</span>
-      </div>
-      <TimeLine model={model} className="text-center w-full px-1" size="primary" />
-      <span className="absolute bottom-2.5 right-3 text-[11px] font-normal opacity-60">
-        {effort}
-      </span>
+    <div className="relative flex h-full flex-col items-center justify-center gap-1 -m-1">
+      <ModelRing model={model} bindingOnly onSelect={() => undefined} />
+      <span className="widget-model-name">{model.name}</span>
+      <TimeLine model={model} className="w-full text-center px-1" bindingOnly />
+      <span className="absolute bottom-0 right-0 widget-effort-label">{effort}</span>
     </div>
   );
 }
@@ -139,24 +159,23 @@ function MediumFace({
   effort: Effort;
   onEffortChange: (e: Effort) => void;
 }) {
+  const ringSize = Math.min(RING_DIAMETER, 52);
+
   return (
-    <>
-      <div className="flex flex-1 items-start justify-around px-2 pt-2 pb-0">
+    <div className="flex h-full flex-col -m-1">
+      <div className="flex flex-1 items-start justify-around gap-1 min-h-0 pt-0">
         {models.map((m) => (
-          <div key={m.id} className="flex flex-1 flex-col items-center gap-0.5 min-w-0 px-0.5">
-            <ModelRing model={m} size={46} compact onSelect={() => undefined} />
-            <div className="flex items-center gap-1 min-w-0">
-              <ModelMark id={m.id} className="shrink-0 opacity-70" />
-              <span className="text-[13px] font-medium truncate">{m.name}</span>
-            </div>
-            <TimeLine model={m} size="compact" className="w-full" />
+          <div key={m.id} className="flex flex-1 flex-col items-center min-w-0 gap-0.5">
+            <ModelRing model={m} diameter={ringSize} onSelect={() => undefined} />
+            <span className="widget-model-name truncate max-w-full">{m.name}</span>
+            <TimeLine model={m} className="w-full text-center" />
           </div>
         ))}
       </div>
-      <div className="pb-2.5 pt-1">
+      <div className="shrink-0 pt-2">
         <EffortControl value={effort} onChange={onEffortChange} />
       </div>
-    </>
+    </div>
   );
 }
 
@@ -176,10 +195,11 @@ function LargeFace({
   advisory: string | null;
 }) {
   const selected = models.find((m) => m.id === selectedId) ?? models[0];
+  const rowRing = 44;
 
   return (
-    <>
-      <div className="flex-1 overflow-y-auto px-3 pt-2.5 pb-1 space-y-1">
+    <div className="flex h-full flex-col -m-1 min-h-0">
+      <div className="flex-1 overflow-y-auto space-y-1 min-h-0">
         {MODEL_ORDER.map((id) => {
           const m = models.find((model) => model.id === id)!;
           const isSelected = id === selectedId;
@@ -196,21 +216,25 @@ function LargeFace({
                     onSelect(id);
                   }
                 }}
-                className={`focus-ring flex w-full cursor-pointer items-center gap-2 rounded-lg px-1 py-0.5 outline-none transition-colors ${
+                className={`focus-ring flex w-full cursor-pointer items-center gap-2 rounded-lg py-0.5 outline-none ${
                   isSelected ? "bg-[rgba(255,255,255,0.06)]" : "hover:bg-[rgba(255,255,255,0.03)]"
                 }`}
                 aria-pressed={isSelected}
               >
-                <ModelMark id={m.id} className="shrink-0 opacity-70" />
                 <div className="min-w-0 flex-1 text-left">
-                  <div className="text-[13px] font-medium leading-tight">{m.name}</div>
-                  <div className="text-[11px] font-normal opacity-60 truncate">{m.tier}</div>
+                  <div className="widget-model-name leading-tight">{m.name}</div>
+                  <div className="widget-tier truncate">{m.tier}</div>
                 </div>
                 <div className="pointer-events-none shrink-0">
-                  <ModelRing model={m} size={38} compact selected={isSelected} />
+                  <ModelRing
+                    model={m}
+                    diameter={rowRing}
+                    minimal
+                    selected={isSelected}
+                  />
                 </div>
-                <div className="min-w-0 flex-1 pointer-events-none">
-                  <TimeLine model={m} size="compact" className="text-left" />
+                <div className="min-w-0 flex-[1.2] pointer-events-none">
+                  <TimeLine model={m} />
                 </div>
               </div>
               <WindowBreakdown model={m} />
@@ -219,21 +243,19 @@ function LargeFace({
         })}
       </div>
 
-      <div className="mx-4 h-px bg-[var(--widget-border)]" />
+      <div className="widget-divider my-2 shrink-0" />
 
-      <div className="py-2">
+      <div className="shrink-0 -mx-2">
         <Sparkline modelId={selected.id} model={selected} />
       </div>
 
-      <div className="pb-2 pt-1">
+      <div className="shrink-0 pt-2">
         <EffortControl value={effort} onChange={onEffortChange} />
       </div>
 
       {advisory && (
-        <p className="px-4 pb-3 text-[11px] font-normal opacity-60 text-center">
-          {advisory}
-        </p>
+        <p className="widget-advisory shrink-0 pt-2 text-center">{advisory}</p>
       )}
-    </>
+    </div>
   );
 }
