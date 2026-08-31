@@ -1,14 +1,13 @@
 "use client";
 
-import { useRef } from "react";
-import type { Scenario, WidgetSize } from "@/lib/data";
+import { useCallback, useRef } from "react";
+import type { Effort, Scenario, WidgetSize } from "@/lib/data";
 import { SCENARIO_CONFIG } from "@/lib/data";
 import { Wallpaper } from "./desktop/wallpaper";
 import { MenuBar } from "./MenuBar";
 import { UsageWidget } from "./UsageWidget";
 import { SegmentedControl } from "./SegmentedControl";
 import { useSimulation } from "@/hooks/useSimulation";
-import type { Provider } from "@/lib/data";
 
 const SIZE_OPTIONS: { value: WidgetSize; label: string }[] = [
   { value: "small", label: "Small" },
@@ -30,7 +29,14 @@ type DesktopStageProps = {
 
 export function DesktopStage({ size, scenario }: DesktopStageProps) {
   const desktopRef = useRef<HTMLDivElement>(null);
-  const providers: Provider[] = useSimulation(scenario);
+  const { models, setEffort } = useSimulation(scenario);
+
+  const handleEffortChange = useCallback(
+    (effort: Effort) => {
+      setEffort(effort);
+    },
+    [setEffort]
+  );
 
   return (
     <div className="relative h-screen w-screen overflow-hidden">
@@ -42,7 +48,13 @@ export function DesktopStage({ size, scenario }: DesktopStageProps) {
         className="absolute inset-0 top-7 z-[1]"
         aria-label="Simulated macOS desktop"
       >
-        <UsageWidget providers={providers} size={size} desktopRef={desktopRef} />
+        <UsageWidget
+          baseModels={models}
+          scenario={scenario}
+          size={size}
+          desktopRef={desktopRef}
+          onEffortChange={handleEffortChange}
+        />
       </div>
     </div>
   );
