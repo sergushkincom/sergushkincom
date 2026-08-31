@@ -17,11 +17,17 @@ export function useDraggable(
   widgetSize: { width: number; height: number }
 ) {
   const reducedMotion = useReducedMotion();
-  const [position, setPosition] = useState(initial);
+  const [position, setPositionState] = useState(initial);
+  const positionRef = useRef(initial);
   const [dragging, setDragging] = useState(false);
   const dragStart = useRef<{ x: number; y: number; posX: number; posY: number } | null>(
     null
   );
+
+  const setPosition = useCallback((next: Position) => {
+    positionRef.current = next;
+    setPositionState(next);
+  }, []);
 
   const clamp = useCallback(
     (x: number, y: number): Position => {
@@ -45,12 +51,12 @@ export function useDraggable(
       dragStart.current = {
         x: e.clientX,
         y: e.clientY,
-        posX: position.x,
-        posY: position.y,
+        posX: positionRef.current.x,
+        posY: positionRef.current.y,
       };
       setDragging(true);
     },
-    [position.x, position.y]
+    []
   );
 
   const onPointerMove = useCallback(
@@ -58,26 +64,27 @@ export function useDraggable(
       if (!dragStart.current) return;
       const dx = e.clientX - dragStart.current.x;
       const dy = e.clientY - dragStart.current.y;
-      const next = clamp(dragStart.current.posX + dx, dragStart.current.posY + dy);
+      const next = clamp(
+        dragStart.current.posX + dx,
+        dragStart.current.posY + dy
+      );
       setPosition(next);
     },
-    [clamp]
+    [clamp, setPosition]
   );
 
   const onPointerUp = useCallback(() => {
     if (!dragStart.current) return;
     dragStart.current = null;
     setDragging(false);
-    setPosition((prev) => {
-      const snapped = clamp(snap(prev.x), snap(prev.y));
-      return snapped;
-    });
-  }, [clamp]);
+    setPosition(clamp(snap(positionRef.current.x), snap(positionRef.current.y)));
+  }, [clamp, setPosition]);
 
   return {
     position,
     dragging,
     reducedMotion,
+    setPosition,
     dragHandlers: {
       onPointerDown,
       onPointerMove,
@@ -86,3 +93,5 @@ export function useDraggable(
     },
   };
 }
+
+export type { Position };

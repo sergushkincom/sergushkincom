@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, useRef, useCallback } from "react";
+import { flushSync } from "react-dom";
 import type {
   BaseModel,
   Effort,
@@ -73,11 +74,41 @@ export function UsageWidget({
   const advisory = size === "large" ? getAdvisoryLine(baseModels, effort) : null;
   const sparklineModel = models.find((m) => m.id === "opus")!;
 
-  const initialPos = { x: 80, y: 120 };
-  const { position, dragging, dragHandlers } = useDraggable(
-    initialPos,
+  const [centered, setCentered] = useState(true);
+  const { position, dragging, setPosition, dragHandlers } = useDraggable(
+    { x: 0, y: 0 },
     desktopRef,
     dims
+  );
+
+  useEffect(() => {
+    setCentered(true);
+  }, [size]);
+
+  const handleSizeChange = useCallback(
+    (next: WidgetSize) => {
+      setCentered(true);
+      onSizeChange(next);
+    },
+    [onSizeChange]
+  );
+
+  const handleWidgetPointerDown = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      if (centered && widgetRef.current && desktopRef.current) {
+        const desktopRect = desktopRef.current.getBoundingClientRect();
+        const widgetRect = widgetRef.current.getBoundingClientRect();
+        flushSync(() => {
+          setPosition({
+            x: widgetRect.left - desktopRect.left,
+            y: widgetRect.top - desktopRect.top,
+          });
+          setCentered(false);
+        });
+      }
+      dragHandlers.onPointerDown(e);
+    },
+    [centered, desktopRef, dragHandlers, setPosition]
   );
 
   const closeMenu = useCallback(() => setMenu(null), []);
@@ -92,16 +123,31 @@ export function UsageWidget({
     <>
       <div
         ref={widgetRef}
-        className="absolute touch-none select-none"
-        style={{
-          left: position.x,
-          top: position.y,
-          width: dims.width,
-          height: dims.height,
-          zIndex: dragging ? 50 : 10,
-        }}
+        className="absolute touch-none select-none outline-none"
+        style={
+          centered
+            ? {
+                left: "50%",
+                top: "45%",
+                transform: "translate(-50%, -50%)",
+                width: dims.width,
+                height: dims.height,
+                zIndex: dragging ? 50 : 10,
+              }
+            : {
+                left: position.x,
+                top: position.y,
+                width: dims.width,
+                height: dims.height,
+                zIndex: dragging ? 50 : 10,
+              }
+        }
+        tabIndex={-1}
         onContextMenu={handleContextMenu}
-        {...dragHandlers}
+        onPointerDown={handleWidgetPointerDown}
+        onPointerMove={dragHandlers.onPointerMove}
+        onPointerUp={dragHandlers.onPointerUp}
+        onPointerCancel={dragHandlers.onPointerCancel}
         role="application"
         aria-label="AI usage widget"
       >
@@ -140,7 +186,7 @@ export function UsageWidget({
         size={size}
         scenario={scenario}
         onClose={closeMenu}
-        onSizeChange={onSizeChange}
+        onSizeChange={handleSizeChange}
         onScenarioChange={onScenarioChange}
       />
     </>

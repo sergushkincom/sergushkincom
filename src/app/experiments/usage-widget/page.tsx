@@ -6,7 +6,7 @@ import { DesktopStage } from "@/components/DesktopStage";
 
 export default function UsageWidgetPage() {
   const [size, setSize] = useState<WidgetSize>("medium");
-  const [scenario, setScenario] = useState<Scenario>("idle");
+  const [scenario, setScenario] = useState<Scenario>("working");
 
   return (
     <DesktopStage
