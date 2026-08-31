@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import type {
   BaseModel,
   Effort,
@@ -20,10 +20,9 @@ import { useDraggable } from "@/hooks/useDraggable";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { ModelMark } from "./ModelMark";
 import { ModelRing } from "./ModelRing";
-import { TimeLine } from "./TimeLine";
+import { TimeLine, WindowBreakdown } from "./TimeLine";
 import { EffortControl } from "./EffortControl";
-import { Sparkline, sparklineColor } from "./Sparkline";
-import { useRef } from "react";
+import { Sparkline } from "./Sparkline";
 
 type UsageWidgetProps = {
   baseModels: BaseModel[];
@@ -117,13 +116,13 @@ export function UsageWidget({
 
 function SmallFace({ model, effort }: { model: Model; effort: Effort }) {
   return (
-    <div className="relative flex h-full flex-col items-center justify-center px-4 py-3 gap-1">
-      <ModelRing model={model} size={72} compact />
+    <div className="relative flex h-full flex-col items-center justify-center px-3 py-3 gap-1">
+      <ModelRing model={model} size={68} compact bindingOnly onSelect={() => undefined} />
       <div className="flex items-center gap-1.5 mt-0.5">
         <ModelMark id={model.id} className="opacity-70" />
         <span className="text-[13px] font-medium">{model.name}</span>
       </div>
-      <TimeLine model={model} className="text-center leading-tight" />
+      <TimeLine model={model} className="text-center w-full px-1" size="primary" />
       <span className="absolute bottom-2.5 right-3 text-[11px] font-normal opacity-60">
         {effort}
       </span>
@@ -142,15 +141,15 @@ function MediumFace({
 }) {
   return (
     <>
-      <div className="flex flex-1 items-center justify-around px-3 pt-2 pb-1">
+      <div className="flex flex-1 items-start justify-around px-2 pt-2 pb-0">
         {models.map((m) => (
-          <div key={m.id} className="flex flex-1 flex-col items-center gap-1 min-w-0">
-            <ModelRing model={m} size={48} compact />
+          <div key={m.id} className="flex flex-1 flex-col items-center gap-0.5 min-w-0 px-0.5">
+            <ModelRing model={m} size={46} compact onSelect={() => undefined} />
             <div className="flex items-center gap-1 min-w-0">
               <ModelMark id={m.id} className="shrink-0 opacity-70" />
               <span className="text-[13px] font-medium truncate">{m.name}</span>
             </div>
-            <TimeLine model={m} size="compact" />
+            <TimeLine model={m} size="compact" className="w-full" />
           </div>
         ))}
       </div>
@@ -180,39 +179,41 @@ function LargeFace({
 
   return (
     <>
-      <div className="flex-1 overflow-hidden px-3 pt-3 pb-2 space-y-2">
+      <div className="flex-1 overflow-y-auto px-3 pt-2.5 pb-1 space-y-1">
         {MODEL_ORDER.map((id) => {
           const m = models.find((model) => model.id === id)!;
           const isSelected = id === selectedId;
           return (
-            <div
-              key={id}
-              role="button"
-              tabIndex={0}
-              data-no-drag
-              onClick={() => onSelect(id)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  onSelect(id);
-                }
-              }}
-              className={`focus-ring flex w-full cursor-pointer items-center gap-2.5 rounded-lg px-1 py-1 outline-none transition-colors ${
-                isSelected ? "bg-[rgba(255,255,255,0.06)]" : "hover:bg-[rgba(255,255,255,0.03)]"
-              }`}
-              aria-pressed={isSelected}
-            >
-              <ModelMark id={m.id} className="shrink-0 opacity-70" />
-              <div className="min-w-0 flex-1 text-left">
-                <div className="text-[13px] font-medium leading-tight">{m.name}</div>
-                <div className="text-[11px] font-normal opacity-60 truncate">{m.tier}</div>
+            <div key={id} className="space-y-0.5">
+              <div
+                role="button"
+                tabIndex={0}
+                data-no-drag
+                onClick={() => onSelect(id)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    onSelect(id);
+                  }
+                }}
+                className={`focus-ring flex w-full cursor-pointer items-center gap-2 rounded-lg px-1 py-0.5 outline-none transition-colors ${
+                  isSelected ? "bg-[rgba(255,255,255,0.06)]" : "hover:bg-[rgba(255,255,255,0.03)]"
+                }`}
+                aria-pressed={isSelected}
+              >
+                <ModelMark id={m.id} className="shrink-0 opacity-70" />
+                <div className="min-w-0 flex-1 text-left">
+                  <div className="text-[13px] font-medium leading-tight">{m.name}</div>
+                  <div className="text-[11px] font-normal opacity-60 truncate">{m.tier}</div>
+                </div>
+                <div className="pointer-events-none shrink-0">
+                  <ModelRing model={m} size={38} compact selected={isSelected} />
+                </div>
+                <div className="min-w-0 flex-1 pointer-events-none">
+                  <TimeLine model={m} size="compact" className="text-left" />
+                </div>
               </div>
-              <div className="pointer-events-none">
-                <ModelRing model={m} size={40} compact selected={isSelected} />
-              </div>
-              <div className="w-[108px] shrink-0 pointer-events-none">
-                <TimeLine model={m} size="compact" />
-              </div>
+              <WindowBreakdown model={m} />
             </div>
           );
         })}
@@ -221,7 +222,7 @@ function LargeFace({
       <div className="mx-4 h-px bg-[var(--widget-border)]" />
 
       <div className="py-2">
-        <Sparkline modelId={selected.id} color={sparklineColor(selected)} />
+        <Sparkline modelId={selected.id} model={selected} />
       </div>
 
       <div className="pb-2 pt-1">

@@ -4,11 +4,27 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { BaseModel, Effort, Scenario } from "@/lib/data";
 import { EFFORT_MULTIPLIER, SCENARIO_CONFIG } from "@/lib/data";
 
-const SIM_SPEED = 60; // 1 real second ≈ 1 simulated minute
+const SIM_SPEED = 60;
+
+function tickWindow(
+  window: BaseModel["session"],
+  burnPerMin: number,
+  deltaMin: number
+) {
+  let used = window.used + burnPerMin * deltaMin;
+  let resetsInMin = window.resetsInMin - deltaMin;
+  if (used >= 1) used = 1;
+  if (resetsInMin < 0) resetsInMin = 0;
+  return { ...window, used, resetsInMin };
+}
 
 export function useSimulation(scenario: Scenario) {
   const [models, setModels] = useState<BaseModel[]>(() =>
-    SCENARIO_CONFIG[scenario].models.map((m) => ({ ...m }))
+    SCENARIO_CONFIG[scenario].models.map((m) => ({
+      ...m,
+      session: { ...m.session },
+      weekly: { ...m.weekly },
+    }))
   );
 
   const modelsRef = useRef(models);
@@ -19,7 +35,11 @@ export function useSimulation(scenario: Scenario) {
 
   useEffect(() => {
     scenarioRef.current = scenario;
-    const fresh = SCENARIO_CONFIG[scenario].models.map((m) => ({ ...m }));
+    const fresh = SCENARIO_CONFIG[scenario].models.map((m) => ({
+      ...m,
+      session: { ...m.session },
+      weekly: { ...m.weekly },
+    }));
     modelsRef.current = fresh;
     setModels(fresh);
     lastTimeRef.current = null;
@@ -39,12 +59,13 @@ export function useSimulation(scenario: Scenario) {
         const multiplier = EFFORT_MULTIPLIER[effortRef.current];
 
         const next = modelsRef.current.map((m) => {
-          const burnPerMin = m.baseBurnPerMin * multiplier;
-          let used = m.used + burnPerMin * deltaMin;
-          let resetsInMin = m.resetsInMin - deltaMin;
-          if (used >= 1) used = 1;
-          if (resetsInMin < 0) resetsInMin = 0;
-          return { ...m, used, resetsInMin };
+          const sessionBurn = m.session.baseBurnPerMin * multiplier;
+          const weeklyBurn = m.weekly.baseBurnPerMin * multiplier;
+          return {
+            ...m,
+            session: tickWindow(m.session, sessionBurn, deltaMin),
+            weekly: tickWindow(m.weekly, weeklyBurn, deltaMin),
+          };
         });
 
         modelsRef.current = next;

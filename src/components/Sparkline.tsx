@@ -1,20 +1,21 @@
 "use client";
 
-import type { Model, ModelId } from "@/lib/data";
+import type { ModelId } from "@/lib/data";
 import { SPARKLINE_DATA } from "@/lib/data";
-import { getProviderStatus, STATUS_COLORS } from "@/lib/provider-status";
+import { sparklineColor } from "@/lib/provider-status";
+import type { Model } from "@/lib/data";
 
 type SparklineProps = {
   modelId: ModelId;
-  color?: string;
+  model: Model;
 };
 
-export function Sparkline({ modelId, color }: SparklineProps) {
+export function Sparkline({ modelId, model }: SparklineProps) {
   const data = SPARKLINE_DATA[modelId];
+  const color = sparklineColor(model);
   const w = 316;
   const h = 56;
   const pad = 4;
-  const strokeColor = color ?? "var(--widget-label)";
 
   const points = data.map((v, i) => {
     const x = pad + (i / (data.length - 1)) * (w - pad * 2);
@@ -35,7 +36,7 @@ export function Sparkline({ modelId, color }: SparklineProps) {
         <polyline
           points={points.join(" ")}
           fill="none"
-          stroke={strokeColor}
+          stroke={color}
           strokeWidth={1.5}
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -48,8 +49,4 @@ export function Sparkline({ modelId, color }: SparklineProps) {
       </div>
     </div>
   );
-}
-
-export function sparklineColor(model: Model): string {
-  return STATUS_COLORS[getProviderStatus(model)];
 }

@@ -1,9 +1,16 @@
-import type { BaseModel, Effort, Model, ProviderStatus } from "./data";
+import type {
+  BaseModel,
+  Effort,
+  Model,
+  ProviderStatus,
+  WindowKey,
+  WindowState,
+} from "./data";
 import {
   EFFORT_OPTIONS,
   applyEffort,
 } from "./data";
-import { copy } from "./copy";
+import { copy, type WindowLabel } from "./copy";
 
 export const STATUS_COLORS: Record<ProviderStatus, string> = {
   healthy: "#34C759",
@@ -11,65 +18,81 @@ export const STATUS_COLORS: Record<ProviderStatus, string> = {
   empty: "#FF3B30",
 };
 
-export function getMinutesUntilEmpty(model: Model): number {
-  if (model.burnPerMin <= 0 || model.used >= 1) return 0;
-  return (1 - model.used) / model.burnPerMin;
+const NEUTRAL_RING = "rgba(255, 255, 255, 0.28)";
+
+export { NEUTRAL_RING };
+
+export function windowLabel(key: WindowKey): WindowLabel {
+  return key === "session" ? "Session" : "Weekly";
 }
 
-export function getProviderStatus(model: Model): ProviderStatus {
-  if (model.used >= 1) return "empty";
-  const minutesLeft = getMinutesUntilEmpty(model);
+export function otherWindow(key: WindowKey): WindowKey {
+  return key === "session" ? "weekly" : "session";
+}
+
+export function getWindow(model: Model, key: WindowKey): WindowState {
+  return model[key];
+}
+
+export function getMinutesUntilEmpty(window: WindowState): number {
+  if (window.burnPerMin <= 0 || window.used >= 1) return 0;
+  return (1 - window.used) / window.burnPerMin;
+}
+
+export function getWindowStatus(window: WindowState): ProviderStatus {
+  if (window.used >= 1) return "empty";
+  const minutesLeft = getMinutesUntilEmpty(window);
   if (minutesLeft <= 0) return "empty";
-  if (minutesLeft < model.resetsInMin) return "tight";
+  if (minutesLeft < window.resetsInMin) return "tight";
   return "healthy";
 }
 
-export function getPrimaryLine(model: Model): string {
-  const status = getProviderStatus(model);
+/** The window that depletes soonest — the binding constraint */
+export function getBindingWindow(model: Model): WindowKey {
+  const sessionLeft = getMinutesUntilEmpty(model.session);
+  const weeklyLeft = getMinutesUntilEmpty(model.weekly);
 
-  if (status === "empty") {
-    return copy.empty(model.resetsInMin);
-  }
-
-  const minutesLeft = getMinutesUntilEmpty(model);
-  if (minutesLeft > model.resetsInMin) {
-    return copy.healthy(model.resetsInMin);
-  }
-
-  const gap = Math.max(0, model.resetsInMin - minutesLeft);
-  return copy.tight(gap);
+  if (sessionLeft <= weeklyLeft) return "session";
+  return "weekly";
 }
 
-/** Numeric values for tweened time-label transitions */
-export function getPrimaryLineValues(model: Model): {
-  status: ProviderStatus;
-  displayValue: number;
-} {
-  const status = getProviderStatus(model);
-  if (status === "empty") {
-    return { status, displayValue: model.resetsInMin };
-  }
-  const minutesLeft = getMinutesUntilEmpty(model);
-  if (minutesLeft > model.resetsInMin) {
-    return { status, displayValue: model.resetsInMin };
-  }
-  return { status, displayValue: model.resetsInMin - minutesLeft };
-}
-
-export function formatPrimaryLineFromValues(
-  status: ProviderStatus,
-  displayValue: number,
-  resetsInMin: number
+export function getWindowLine(
+  key: WindowKey,
+  window: WindowState,
+  status?: ProviderStatus
 ): string {
-  if (status === "empty") return copy.empty(resetsInMin);
-  if (status === "healthy") return copy.healthy(displayValue);
-  return copy.tight(displayValue);
+  const s = status ?? getWindowStatus(window);
+  const label = windowLabel(key);
+
+  if (s === "empty") return copy.empty(label, window.resetsInMin);
+
+  const minutesLeft = getMinutesUntilEmpty(window);
+  if (minutesLeft > window.resetsInMin) {
+    return copy.healthy(label, window.resetsInMin);
+  }
+
+  const gap = Math.max(0, window.resetsInMin - minutesLeft);
+  return copy.tight(label, gap);
+}
+
+export function getPrimaryLine(model: Model): string {
+  const binding = getBindingWindow(model);
+  return getWindowLine(binding, model[binding]);
+}
+
+export function getSecondaryLine(model: Model): string {
+  const binding = getBindingWindow(model);
+  const other = otherWindow(binding);
+  return getWindowLine(other, model[other]);
 }
 
 export function getAriaLabel(model: Model): string {
-  const status = getProviderStatus(model);
+  const binding = getBindingWindow(model);
+  const window = model[binding];
+  const status = getWindowStatus(window);
   const primary = getPrimaryLine(model);
-  return `${model.name}, ${Math.round(model.used * 100)} percent used, ${status}, ${primary}`;
+  const secondary = getSecondaryLine(model);
+  return `${model.name}, ${Math.round(window.used * 100)} percent used on ${windowLabel(binding)}, ${status}, ${primary}. ${secondary}`;
 }
 
 export function getAdvisoryLine(
@@ -78,31 +101,34 @@ export function getAdvisoryLine(
 ): string | null {
   if (effort !== "High") return null;
 
-  const effortIndex = EFFORT_OPTIONS.indexOf(effort);
-  const lowerEffort = EFFORT_OPTIONS[effortIndex - 1];
-  if (!lowerEffort) return null;
+  const lowerEffort = EFFORT_OPTIONS[EFFORT_OPTIONS.indexOf(effort) - 1];
+  if (lowerEffort !== "Medium") return null;
 
   const hasQualifyingModel = models.some((base) => {
     const atCurrent = applyEffort(base, effort);
     const atLower = applyEffort(base, lowerEffort);
+    const binding = getBindingWindow(atCurrent);
+    if (binding !== "session") return false;
     return (
-      getProviderStatus(atCurrent) === "tight" &&
-      getProviderStatus(atLower) === "healthy"
+      getWindowStatus(atCurrent.session) === "tight" &&
+      getWindowStatus(atLower.session) === "healthy"
     );
   });
 
-  if (!hasQualifyingModel) return null;
-
-  // Copy is fixed to Medium per spec
-  if (lowerEffort === "Medium") return copy.advisory;
-  return null;
+  return hasQualifyingModel ? copy.advisory : null;
 }
 
+export function sparklineColor(model: Model): string {
+  const binding = getBindingWindow(model);
+  return STATUS_COLORS[getWindowStatus(model[binding])];
+}
+
+/** @deprecated */
+export function getProviderStatus(window: WindowState): ProviderStatus {
+  return getWindowStatus(window);
+}
+
+/** @deprecated */
 export function getStatusColor(model: Model): string {
-  return STATUS_COLORS[getProviderStatus(model)];
-}
-
-export function getLabelColor(model: Model): string {
-  const status = getProviderStatus(model);
-  return status === "healthy" ? "var(--widget-label)" : STATUS_COLORS[status];
+  return sparklineColor(model);
 }

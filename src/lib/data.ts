@@ -2,17 +2,39 @@ export type ModelId = "opus" | "sonnet" | "haiku";
 
 export type Effort = "Low" | "Medium" | "High";
 
+export type WindowKey = "session" | "weekly";
+
+export type BaseWindow = {
+  used: number;
+  resetsInMin: number;
+  baseBurnPerMin: number;
+};
+
+export type WindowState = BaseWindow & {
+  burnPerMin: number;
+};
+
+export type BaseModel = {
+  id: ModelId;
+  name: string;
+  tier: string;
+  session: BaseWindow;
+  weekly: BaseWindow;
+};
+
 export type Model = {
   id: ModelId;
   name: string;
   tier: string;
-  used: number;
-  resetsInMin: number;
-  baseBurnPerMin: number;
-  burnPerMin: number;
+  session: WindowState;
+  weekly: WindowState;
 };
 
-export type Scenario = "idle" | "working" | "burning-fast" | "limit-reached";
+export type Scenario =
+  | "idle"
+  | "working"
+  | "burning-fast"
+  | "weekly-wall";
 
 export type WidgetSize = "small" | "medium" | "large";
 
@@ -29,42 +51,44 @@ export const EFFORT_MULTIPLIER: Record<Effort, number> = {
 
 export const EFFORT_OPTIONS: Effort[] = ["Low", "Medium", "High"];
 
-type BaseModel = Omit<Model, "burnPerMin">;
-
-export type { BaseModel };
-
 export const BASE_MODELS: BaseModel[] = [
   {
     id: "opus",
     name: "Opus 5",
     tier: "For complex tasks",
-    used: 0.73,
-    resetsInMin: 51,
-    // Tuned so Medium lasts past reset, High runs out ~18m early
-    baseBurnPerMin: 0.0045,
+    session: { used: 0.73, resetsInMin: 51, baseBurnPerMin: 0.0030 },
+    weekly: { used: 0.41, resetsInMin: 4380, baseBurnPerMin: 0.0030 },
   },
   {
     id: "sonnet",
     name: "Sonnet 5",
     tier: "Most efficient for everyday tasks",
-    used: 0.21,
-    resetsInMin: 184,
-    baseBurnPerMin: 0.0009,
+    session: { used: 0.21, resetsInMin: 184, baseBurnPerMin: 0.0009 },
+    weekly: { used: 0.18, resetsInMin: 4380, baseBurnPerMin: 0.0009 },
   },
   {
     id: "haiku",
     name: "Haiku 4.5",
     tier: "Fastest for quick answers",
-    used: 0.52,
-    resetsInMin: 96,
-    baseBurnPerMin: 0.0004,
+    session: { used: 0.52, resetsInMin: 96, baseBurnPerMin: 0.0004 },
+    weekly: { used: 0.35, resetsInMin: 4380, baseBurnPerMin: 0.0004 },
   },
 ];
 
+function applyEffortToWindow(window: BaseWindow, effort: Effort): WindowState {
+  return {
+    ...window,
+    burnPerMin: window.baseBurnPerMin * EFFORT_MULTIPLIER[effort],
+  };
+}
+
 export function applyEffort(model: BaseModel, effort: Effort): Model {
   return {
-    ...model,
-    burnPerMin: model.baseBurnPerMin * EFFORT_MULTIPLIER[effort],
+    id: model.id,
+    name: model.name,
+    tier: model.tier,
+    session: applyEffortToWindow(model.session, effort),
+    weekly: applyEffortToWindow(model.weekly, effort),
   };
 }
 
@@ -74,6 +98,14 @@ export function applyEffortToAll(models: BaseModel[], effort: Effort): Model[] {
     if (!model) throw new Error(`Missing model: ${id}`);
     return applyEffort(model, effort);
   });
+}
+
+function cloneModels(models: BaseModel[]): BaseModel[] {
+  return models.map((m) => ({
+    ...m,
+    session: { ...m.session },
+    weekly: { ...m.weekly },
+  }));
 }
 
 export const SCENARIO_CONFIG: Record<
@@ -88,14 +120,21 @@ export const SCENARIO_CONFIG: Record<
 > = {
   idle: {
     label: "Idle",
-    models: BASE_MODELS.map((m) => ({ ...m })),
+    models: cloneModels(BASE_MODELS),
     simulating: false,
     burnMultiplier: 1,
     effort: "Medium",
   },
   working: {
     label: "Working",
-    models: BASE_MODELS.map((m) => ({ ...m })),
+    models: cloneModels(BASE_MODELS).map((m) =>
+      m.id === "opus"
+        ? {
+            ...m,
+            session: { ...m.session, used: 0.79, resetsInMin: 44 },
+          }
+        : m
+    ),
     simulating: true,
     burnMultiplier: 1,
     effort: "Medium",
@@ -107,59 +146,49 @@ export const SCENARIO_CONFIG: Record<
         id: "opus",
         name: "Opus 5",
         tier: "For complex tasks",
-        used: 0.82,
-        resetsInMin: 38,
-        baseBurnPerMin: 0.0045,
+        session: { used: 0.82, resetsInMin: 38, baseBurnPerMin: 0.0030 },
+        weekly: { used: 0.52, resetsInMin: 4200, baseBurnPerMin: 0.0030 },
       },
       {
         id: "sonnet",
         name: "Sonnet 5",
         tier: "Most efficient for everyday tasks",
-        used: 0.45,
-        resetsInMin: 120,
-        baseBurnPerMin: 0.0009,
+        session: { used: 0.45, resetsInMin: 120, baseBurnPerMin: 0.0009 },
+        weekly: { used: 0.38, resetsInMin: 4380, baseBurnPerMin: 0.0009 },
       },
       {
         id: "haiku",
         name: "Haiku 4.5",
         tier: "Fastest for quick answers",
-        used: 0.68,
-        resetsInMin: 52,
-        baseBurnPerMin: 0.0004,
+        session: { used: 0.68, resetsInMin: 52, baseBurnPerMin: 0.0004 },
+        weekly: { used: 0.55, resetsInMin: 4380, baseBurnPerMin: 0.0004 },
       },
     ],
     simulating: true,
     burnMultiplier: 1,
     effort: "High",
   },
-  "limit-reached": {
-    label: "Limit reached",
-    models: [
-      {
-        id: "opus",
-        name: "Opus 5",
-        tier: "For complex tasks",
-        used: 1.0,
-        resetsInMin: 28,
-        baseBurnPerMin: 0.0045,
-      },
-      {
-        id: "sonnet",
-        name: "Sonnet 5",
-        tier: "Most efficient for everyday tasks",
-        used: 0.89,
-        resetsInMin: 95,
-        baseBurnPerMin: 0.0009,
-      },
-      {
-        id: "haiku",
-        name: "Haiku 4.5",
-        tier: "Fastest for quick answers",
-        used: 0.97,
-        resetsInMin: 41,
-        baseBurnPerMin: 0.0004,
-      },
-    ],
+  "weekly-wall": {
+    label: "Weekly wall",
+    models: cloneModels(BASE_MODELS).map((m) =>
+      m.id === "opus"
+        ? {
+            ...m,
+            session: { ...m.session, used: 0.22, resetsInMin: 51 },
+            weekly: { ...m.weekly, used: 0.94, resetsInMin: 5760 },
+          }
+        : m.id === "sonnet"
+          ? {
+              ...m,
+              session: { ...m.session, used: 0.18, resetsInMin: 184 },
+              weekly: { ...m.weekly, used: 0.88, resetsInMin: 5040 },
+            }
+          : {
+              ...m,
+              session: { ...m.session, used: 0.35, resetsInMin: 96 },
+              weekly: { ...m.weekly, used: 0.91, resetsInMin: 4320 },
+            }
+    ),
     simulating: false,
     burnMultiplier: 0,
     effort: "Medium",
