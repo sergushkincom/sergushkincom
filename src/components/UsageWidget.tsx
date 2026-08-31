@@ -5,7 +5,6 @@ import type {
   BaseModel,
   Effort,
   Model,
-  ModelId,
   Scenario,
   WidgetSize,
 } from "@/lib/data";
@@ -21,10 +20,12 @@ import { formatPercent } from "@/lib/format";
 import { ModelRing } from "./ModelRing";
 import {
   CompactStatusLine,
-  FullStatusLines,
   getClosestToLimitModel,
+  LargeRowContent,
+  MediumStatusLine,
 } from "./StatusLine";
 import { EffortControl } from "./EffortControl";
+import { Sparkline } from "./Sparkline";
 import { WidgetContextMenu, type MenuState } from "./WidgetContextMenu";
 
 type UsageWidgetProps = {
@@ -40,7 +41,6 @@ type UsageWidgetProps = {
 const MEDIUM_RING = 52;
 const SMALL_RING = 64;
 const LARGE_RING = 44;
-const LARGE_ROW = 76;
 
 function Spacer({ h }: { h: number }) {
   return <div style={{ height: h, flexShrink: 0 }} aria-hidden="true" />;
@@ -64,7 +64,7 @@ function ModelColumn({
       <Spacer h={4} />
       <span className="widget-model-name leading-none">{model.name}</span>
       <Spacer h={2} />
-      <CompactStatusLine model={model} />
+      <MediumStatusLine model={model} />
     </div>
   );
 }
@@ -80,7 +80,6 @@ export function UsageWidget({
 }: UsageWidgetProps) {
   const dims = WIDGET_DIMENSIONS[size];
   const [effort, setEffort] = useState<Effort>("Medium");
-  const [selectedId, setSelectedId] = useState<ModelId>("opus");
   const [menu, setMenu] = useState<MenuState>(null);
   const widgetRef = useRef<HTMLDivElement>(null);
 
@@ -101,6 +100,7 @@ export function UsageWidget({
   );
 
   const advisory = size === "large" ? getAdvisoryLine(baseModels, effort) : null;
+  const sparklineModel = models.find((m) => m.id === "opus")!;
 
   const initialPos = { x: 80, y: 120 };
   const { position, dragging, dragHandlers } = useDraggable(
@@ -152,10 +152,9 @@ export function UsageWidget({
             <LargeFace
               models={models}
               effort={effort}
-              selectedId={selectedId}
-              onSelect={setSelectedId}
               onEffortChange={handleEffortChange}
               advisory={advisory}
+              sparklineModel={sparklineModel}
             />
           )}
         </div>
@@ -187,8 +186,9 @@ function SmallFace({ model, effort }: { model: Model; effort: Effort }) {
         <Spacer h={2} />
         <CompactStatusLine model={model} />
       </div>
+      <Spacer h={8} />
       <span
-        className="widget-effort-label shrink-0 self-end"
+        className="widget-effort-label block shrink-0 text-right leading-none"
         style={{ opacity: 0.4 }}
       >
         {effort}
@@ -213,8 +213,7 @@ function MediumFace({
           <ModelColumn key={m.id} model={m} ringSize={MEDIUM_RING} />
         ))}
       </div>
-      {/* 12px base gap + 18px breathing room above effort row */}
-      <Spacer h={30} />
+      <Spacer h={12} />
       <div className="h-6 shrink-0">
         <EffortControl value={effort} onChange={onEffortChange} />
       </div>
@@ -225,63 +224,37 @@ function MediumFace({
 function LargeFace({
   models,
   effort,
-  selectedId,
-  onSelect,
   onEffortChange,
   advisory,
+  sparklineModel,
 }: {
   models: Model[];
   effort: Effort;
-  selectedId: ModelId;
-  onSelect: (id: ModelId) => void;
   onEffortChange: (e: Effort) => void;
   advisory: string | null;
+  sparklineModel: Model;
 }) {
   return (
     <div className="flex h-full flex-col">
       <div className="flex flex-col">
         {MODEL_ORDER.map((id, index) => {
           const m = models.find((model) => model.id === id)!;
-          const isSelected = id === selectedId;
           return (
             <div key={id}>
               {index > 0 && (
                 <div style={{ height: 0.5, background: "rgba(255, 255, 255, 0.08)" }} />
               )}
               <div
-                role="button"
-                tabIndex={0}
-                data-no-drag
-                onClick={() => onSelect(id)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    onSelect(id);
-                  }
-                }}
-                className={`focus-ring flex items-start outline-none ${
-                  isSelected ? "bg-[rgba(255,255,255,0.06)]" : ""
-                }`}
+                className="flex items-start"
                 style={{
-                  height: LARGE_ROW,
-                  gap: 12,
-                  paddingTop: 16,
-                  paddingBottom: 16,
+                  gap: 16,
+                  paddingTop: 12,
+                  paddingBottom: 12,
                   boxSizing: "border-box",
                 }}
-                aria-pressed={isSelected}
               >
-                <ModelRing
-                  model={m}
-                  diameter={LARGE_RING}
-                  bindingOnly
-                  selected={isSelected}
-                  onSelect={() => onSelect(id)}
-                />
-                <div className="flex min-w-0 flex-1 flex-col" style={{ gap: 4 }}>
-                  <span className="widget-model-name leading-none">{m.name}</span>
-                  <FullStatusLines model={m} />
-                </div>
+                <ModelRing model={m} diameter={LARGE_RING} bindingOnly />
+                <LargeRowContent model={m} />
               </div>
             </div>
           );
@@ -290,8 +263,10 @@ function LargeFace({
 
       <div style={{ flex: 1, minHeight: 8 }} />
 
+      <Sparkline modelId={sparklineModel.id} model={sparklineModel} />
+
       <Spacer h={12} />
-      <div style={{ height: 24, flexShrink: 0 }}>
+      <div className="h-6 shrink-0">
         <EffortControl value={effort} onChange={onEffortChange} />
       </div>
 

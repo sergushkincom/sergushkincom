@@ -64,15 +64,15 @@ export function getWindowLine(
   const s = status ?? getWindowStatus(window);
   const label = windowLabel(key);
 
-  if (s === "empty") return copy.empty(window.resetsInMin);
+  if (s === "empty") return copy.largeBindingEmpty(label, window.resetsInMin);
 
   const minutesLeft = getMinutesUntilEmpty(window);
   if (minutesLeft > window.resetsInMin) {
-    return copy.healthy(label, window.resetsInMin);
+    return copy.largeBindingHealthy(label, window.resetsInMin);
   }
 
   const gap = Math.max(0, window.resetsInMin - minutesLeft);
-  return copy.tight(label, gap);
+  return copy.largeBindingTight(label, gap);
 }
 
 export function getPrimaryLine(model: Model): string {

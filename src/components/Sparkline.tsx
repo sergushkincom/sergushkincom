@@ -13,7 +13,7 @@ type SparklineProps = {
 export function Sparkline({ modelId, model }: SparklineProps) {
   const data = SPARKLINE_DATA[modelId];
   const color = sparklineColor(model);
-  const w = 316;
+  const w = 300;
   const h = 56;
   const pad = 4;
 
@@ -24,7 +24,7 @@ export function Sparkline({ modelId, model }: SparklineProps) {
   });
 
   return (
-    <div className="px-4">
+    <div style={{ paddingRight: 16 }}>
       <p className="widget-status-line mb-2" style={{ opacity: 0.7 }}>
         Last 24 hours
       </p>

@@ -5,13 +5,11 @@ import type { Model, WindowKey } from "@/lib/data";
 import { getAriaLabel, getBindingWindow, getWindow, getWindowStatus, NEUTRAL_RING, STATUS_COLORS } from "@/lib/provider-status";
 import { useTweenedValue } from "@/hooks/useTweenedValue";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { ModelMonogram } from "./ModelMonogram";
+import { ModelSpark } from "./ModelSpark";
 
 type ModelRingProps = {
   model: Model;
   diameter?: number;
-  onSelect?: () => void;
-  selected?: boolean;
   /** Single ring for the binding window (medium / small / large row) */
   bindingOnly?: boolean;
 };
@@ -25,8 +23,6 @@ const TRACK = "rgba(255, 255, 255, 0.16)";
 export function ModelRing({
   model,
   diameter = RING_DIAMETER,
-  onSelect,
-  selected = false,
   bindingOnly = true,
 }: ModelRingProps) {
   const labelId = useId();
@@ -43,13 +39,10 @@ export function ModelRing({
   const outerStroke = OUTER_STROKE * scale;
   const innerStroke = INNER_STROKE * scale;
   const gap = RING_GAP * scale;
-  const monogramScale = diameter / RING_DIAMETER;
 
   const transitionRing = reducedMotion
     ? "none"
     : "stroke-dasharray 400ms ease-out, stroke 600ms ease";
-
-  const interactive = Boolean(onSelect);
 
   function ringColor(key: WindowKey): string {
     if (bindingOnly) return STATUS_COLORS[getWindowStatus(bindingWindow)];
@@ -97,71 +90,36 @@ export function ModelRing({
   const outerR = (diameter - outerStroke) / 2;
   const innerR = outerR - outerStroke / 2 - gap - innerStroke / 2;
 
-  const ringSvg = (
-    <svg
-      width={diameter}
-      height={diameter}
-      viewBox={`0 0 ${diameter} ${diameter}`}
-      className="block shrink-0 -rotate-90"
-      aria-hidden="true"
-    >
-      {bindingOnly ? (
-        drawRing(
-          outerR,
-          outerStroke,
-          tweenedBinding,
-          STATUS_COLORS[getWindowStatus(bindingWindow)]
-        )
-      ) : (
-        <>
-          {drawRing(outerR, outerStroke, tweenedSession, ringColor("session"))}
-          {innerR > innerStroke &&
-            drawRing(innerR, innerStroke, tweenedWeekly, ringColor("weekly"))}
-        </>
-      )}
-    </svg>
-  );
-
-  const ringBlock = (
-    <div
-      className="relative shrink-0"
-      style={{ width: diameter, height: diameter }}
-    >
-      {ringSvg}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <ModelMonogram id={model.id} scale={monogramScale} />
-      </div>
-    </div>
-  );
-
-  if (interactive) {
-    return (
-      <button
-        type="button"
-        data-no-drag
-        className={`focus-ring shrink-0 outline-none ${selected ? "opacity-100" : ""}`}
-        style={{ width: diameter, height: diameter }}
-        aria-label={getAriaLabel(model)}
-        aria-pressed={selected}
-        onClick={onSelect}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            onSelect?.();
-          }
-        }}
-      >
-        {ringBlock}
-      </button>
-    );
-  }
-
   return (
-    <div aria-labelledby={labelId} role="img" className="shrink-0">
+    <div aria-labelledby={labelId} role="img" className="relative shrink-0" style={{ width: diameter, height: diameter }}>
       <span id={labelId} className="sr-only">
         {getAriaLabel(model)}
       </span>
-      {ringBlock}
+      <svg
+        width={diameter}
+        height={diameter}
+        viewBox={`0 0 ${diameter} ${diameter}`}
+        className="block shrink-0 -rotate-90"
+        aria-hidden="true"
+      >
+        {bindingOnly ? (
+          drawRing(
+            outerR,
+            outerStroke,
+            tweenedBinding,
+            STATUS_COLORS[getWindowStatus(bindingWindow)]
+          )
+        ) : (
+          <>
+            {drawRing(outerR, outerStroke, tweenedSession, ringColor("session"))}
+            {innerR > innerStroke &&
+              drawRing(innerR, innerStroke, tweenedWeekly, ringColor("weekly"))}
+          </>
+        )}
+      </svg>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <ModelSpark ringDiameter={diameter} />
+      </div>
     </div>
   );
 }

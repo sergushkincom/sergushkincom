@@ -1,12 +1,14 @@
 "use client";
 
 import type { Model, ProviderStatus, WindowKey } from "@/lib/data";
-import { copy, WINDOW_SHORT } from "@/lib/copy";
+import { copy, MEDIUM_STATUS, WINDOW_SHORT } from "@/lib/copy";
+import { formatPercent } from "@/lib/format";
 import { useTweenedValue } from "@/hooks/useTweenedValue";
 import {
   getBindingWindow,
   getMinutesUntilEmpty,
   getWindow,
+  otherWindow,
   STATUS_COLORS,
   windowLabel,
 } from "@/lib/provider-status";
@@ -19,6 +21,44 @@ function statusFromMinutesLeft(
   if (minutesLeft <= 0) return "empty";
   if (minutesLeft < window.resetsInMin) return "tight";
   return "healthy";
+}
+
+function mediumStatusText(model: Model): string {
+  const binding = getBindingWindow(model);
+  if (binding === "weekly") return MEDIUM_STATUS.weekly;
+
+  const window = getWindow(model, binding);
+  const minutesLeft = getMinutesUntilEmpty(window);
+  const status = statusFromMinutesLeft(window, minutesLeft);
+
+  if (status === "empty") return MEDIUM_STATUS.empty;
+  if (status === "tight") return MEDIUM_STATUS.tight;
+  return MEDIUM_STATUS.healthy;
+}
+
+function mediumStatusColor(model: Model): string | undefined {
+  const binding = getBindingWindow(model);
+  if (binding === "weekly") return undefined;
+
+  const window = getWindow(model, binding);
+  const minutesLeft = getMinutesUntilEmpty(window);
+  const status = statusFromMinutesLeft(window, minutesLeft);
+  return status === "healthy" ? undefined : STATUS_COLORS[status];
+}
+
+/** Medium — fixed table copy, binding window only */
+export function MediumStatusLine({ model }: { model: Model }) {
+  const text = mediumStatusText(model);
+  const color = mediumStatusColor(model);
+
+  return (
+    <p
+      className="widget-status-line transition-colors duration-[600ms]"
+      style={{ color }}
+    >
+      {text}
+    </p>
+  );
 }
 
 function compactText(
@@ -34,20 +74,7 @@ function compactText(
   return copy.compactTight(short, gap);
 }
 
-function fullText(
-  windowKey: WindowKey,
-  status: ProviderStatus,
-  window: { resetsInMin: number },
-  tweenedMinutesLeft: number
-): string {
-  const label = windowLabel(windowKey);
-  if (status === "empty") return copy.empty(window.resetsInMin);
-  if (status === "healthy") return copy.healthy(label, window.resetsInMin);
-  const gap = Math.max(0, window.resetsInMin - tweenedMinutesLeft);
-  return copy.tight(label, gap);
-}
-
-/** Binding window — compact copy for medium / small */
+/** Small — binding window, compact dynamic copy */
 export function CompactStatusLine({ model }: { model: Model }) {
   const binding = getBindingWindow(model);
   const window = getWindow(model, binding);
@@ -68,30 +95,48 @@ export function CompactStatusLine({ model }: { model: Model }) {
   );
 }
 
-type FullWindowLineProps = {
-  windowKey: WindowKey;
-  model: Model;
-};
+function largeBindingText(
+  windowKey: WindowKey,
+  status: ProviderStatus,
+  window: { resetsInMin: number },
+  tweenedMinutesLeft: number
+): string {
+  const label = windowLabel(windowKey);
+  if (status === "empty") return copy.largeBindingEmpty(label, window.resetsInMin);
+  if (status === "healthy") return copy.largeBindingHealthy(label, window.resetsInMin);
+  const gap = Math.max(0, window.resetsInMin - tweenedMinutesLeft);
+  return copy.largeBindingTight(label, gap);
+}
 
-function FullWindowLine({ windowKey, model }: FullWindowLineProps) {
-  const window = getWindow(model, windowKey);
+function largeOtherText(
+  windowKey: WindowKey,
+  status: ProviderStatus,
+  window: { resetsInMin: number },
+  tweenedMinutesLeft: number
+): string {
+  const label = windowLabel(windowKey);
+  if (status === "empty") return copy.largeOtherEmpty(label, window.resetsInMin);
+  if (status === "healthy") {
+    const left = Math.min(tweenedMinutesLeft, window.resetsInMin);
+    return copy.largeOtherHealthy(label, left);
+  }
+  const gap = Math.max(0, window.resetsInMin - tweenedMinutesLeft);
+  return copy.largeOtherTight(label, gap);
+}
+
+function LargeBindingLine({ model }: { model: Model }) {
+  const binding = getBindingWindow(model);
+  const window = getWindow(model, binding);
   const minutesLeft = getMinutesUntilEmpty(window);
   const tweenedMinutesLeft = useTweenedValue(minutesLeft);
   const status = statusFromMinutesLeft(window, tweenedMinutesLeft);
-  const text = fullText(windowKey, status, window, tweenedMinutesLeft);
-  const isBinding = getBindingWindow(model) === windowKey;
+  const text = largeBindingText(binding, status, window, tweenedMinutesLeft);
 
   return (
     <p
       className="widget-status-line transition-colors duration-[600ms]"
       style={{
-        color:
-          status === "healthy" && !isBinding
-            ? undefined
-            : status === "healthy"
-              ? undefined
-              : STATUS_COLORS[status],
-        opacity: isBinding ? 1 : 0.55,
+        color: status === "healthy" ? undefined : STATUS_COLORS[status],
       }}
     >
       {text}
@@ -99,12 +144,37 @@ function FullWindowLine({ windowKey, model }: FullWindowLineProps) {
   );
 }
 
-/** Both windows — full copy for large rows */
-export function FullStatusLines({ model }: { model: Model }) {
+function LargeOtherLine({ model }: { model: Model }) {
+  const other = otherWindow(getBindingWindow(model));
+  const window = getWindow(model, other);
+  const minutesLeft = getMinutesUntilEmpty(window);
+  const tweenedMinutesLeft = useTweenedValue(minutesLeft);
+  const status = statusFromMinutesLeft(window, tweenedMinutesLeft);
+  const text = largeOtherText(other, status, window, tweenedMinutesLeft);
+
   return (
-    <div className="flex flex-col gap-0.5">
-      <FullWindowLine windowKey="session" model={model} />
-      <FullWindowLine windowKey="weekly" model={model} />
+    <p
+      className="widget-status-line transition-colors duration-[600ms]"
+      style={{ opacity: 0.42 }}
+    >
+      {text}
+    </p>
+  );
+}
+
+export function LargeRowContent({ model }: { model: Model }) {
+  const sessionPct = formatPercent(model.session.used);
+  const weeklyPct = formatPercent(model.weekly.used);
+  const summary = `${WINDOW_SHORT.session} ${sessionPct}  ${WINDOW_SHORT.weekly} ${weeklyPct}`;
+
+  return (
+    <div className="flex min-w-0 flex-1 flex-col" style={{ gap: 4 }}>
+      <div className="flex items-baseline justify-between" style={{ gap: 8 }}>
+        <span className="widget-model-name shrink-0 leading-none">{model.name}</span>
+        <span className="widget-window-summary shrink-0 leading-none">{summary}</span>
+      </div>
+      <LargeBindingLine model={model} />
+      <LargeOtherLine model={model} />
     </div>
   );
 }

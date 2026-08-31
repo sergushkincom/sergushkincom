@@ -21,13 +21,30 @@ export const WINDOW_SHORT = {
   weekly: "7d",
 } as const;
 
+/** Medium — fixed strings only, chosen by binding + status */
+export const MEDIUM_STATUS = {
+  healthy: "51m left",
+  tight: "18m early",
+  empty: "Limit · 28m",
+  weekly: "2d 4h left",
+} as const;
+
 export const copy = {
-  healthy: (window: WindowLabel, resetsInMin: number) =>
+  /** Large row — binding window, full wording */
+  largeBindingHealthy: (window: WindowLabel, resetsInMin: number) =>
     `${window} · resets in ${formatMinutes(resetsInMin)}`,
-  tight: (window: WindowLabel, gapMin: number) =>
-    `${window} · runs out ~${formatMinutes(gapMin)} early`,
-  empty: (resetsInMin: number) => `Limit reached · ${formatMinutes(resetsInMin)}`,
-  /** Medium / small — binding window, compact */
+  largeBindingTight: (window: WindowLabel, gapMin: number) =>
+    `${window} · runs out ${formatMinutes(gapMin)} early`,
+  largeBindingEmpty: (window: WindowLabel, resetsInMin: number) =>
+    `${window} · limit reached, resets in ${formatMinutes(resetsInMin)}`,
+  /** Large row — other window, muted */
+  largeOtherHealthy: (window: WindowLabel, leftMin: number) =>
+    `${window} · ${formatMinutes(leftMin)} left`,
+  largeOtherTight: (window: WindowLabel, gapMin: number) =>
+    `${window} · runs out ${formatMinutes(gapMin)} early`,
+  largeOtherEmpty: (window: WindowLabel, resetsInMin: number) =>
+    `${window} · limit reached, resets in ${formatMinutes(resetsInMin)}`,
+  /** Small — binding window, compact */
   compactHealthy: (windowShort: string, resetsInMin: number) =>
     `${windowShort} · ${formatMinutes(resetsInMin)}`,
   compactTight: (windowShort: string, gapMin: number) =>
