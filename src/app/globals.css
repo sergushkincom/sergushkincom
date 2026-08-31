@@ -58,14 +58,25 @@ body {
   font-weight: 400;
   color: rgba(255, 255, 255, 0.52);
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  margin: 0;
 }
 
 .widget-percentage {
   font-size: 12px;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.52);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .widget-tier {

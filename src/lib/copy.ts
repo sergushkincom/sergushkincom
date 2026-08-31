@@ -16,18 +16,26 @@ function formatMinutes(minutes: number): string {
 
 export type WindowLabel = "Session" | "Weekly";
 
+export const WINDOW_SHORT = {
+  session: "5h",
+  weekly: "7d",
+} as const;
+
 export const copy = {
   healthy: (window: WindowLabel, resetsInMin: number) =>
     `${window} · resets in ${formatMinutes(resetsInMin)}`,
   tight: (window: WindowLabel, gapMin: number) =>
     `${window} · runs out ~${formatMinutes(gapMin)} early`,
   empty: (resetsInMin: number) => `Limit reached · ${formatMinutes(resetsInMin)}`,
+  /** Medium / small — binding window, compact */
+  compactHealthy: (windowShort: string, resetsInMin: number) =>
+    `${windowShort} · ${formatMinutes(resetsInMin)}`,
+  compactTight: (windowShort: string, gapMin: number) =>
+    `${windowShort} · ${formatMinutes(gapMin)} early`,
+  compactEmpty: (windowShort: string) => `${windowShort} · limit`,
   advisory: "Medium effort would last past the reset.",
   effortLabel: "Effort",
-  windowShort: {
-    session: "5h",
-    weekly: "7d",
-  } as const,
+  windowShort: WINDOW_SHORT,
 } as const;
 
 export { formatMinutes };

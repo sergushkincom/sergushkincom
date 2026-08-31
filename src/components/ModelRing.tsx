@@ -1,30 +1,19 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId } from "react";
 import type { Model, WindowKey } from "@/lib/data";
-import {
-  getAriaLabel,
-  getBindingWindow,
-  getWindow,
-  getWindowLine,
-  getWindowStatus,
-  NEUTRAL_RING,
-  STATUS_COLORS,
-} from "@/lib/provider-status";
-import { formatPercent } from "@/lib/format";
+import { getAriaLabel, getBindingWindow, getWindow, getWindowStatus, NEUTRAL_RING, STATUS_COLORS } from "@/lib/provider-status";
 import { useTweenedValue } from "@/hooks/useTweenedValue";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { ModelMark } from "./ModelMark";
+import { ModelMonogram } from "./ModelMonogram";
 
 type ModelRingProps = {
   model: Model;
   diameter?: number;
   onSelect?: () => void;
   selected?: boolean;
-  /** Small widget: only the binding window ring */
+  /** Single ring for the binding window (medium / small / large row) */
   bindingOnly?: boolean;
-  /** Hide mark and percentage (large row compact) */
-  minimal?: boolean;
 };
 
 export const RING_DIAMETER = 56;
@@ -38,11 +27,9 @@ export function ModelRing({
   diameter = RING_DIAMETER,
   onSelect,
   selected = false,
-  bindingOnly = false,
-  minimal = false,
+  bindingOnly = true,
 }: ModelRingProps) {
-  const [hovered, setHovered] = useState(false);
-  const tooltipId = useId();
+  const labelId = useId();
   const reducedMotion = useReducedMotion();
 
   const binding = getBindingWindow(model);
@@ -56,6 +43,7 @@ export function ModelRing({
   const outerStroke = OUTER_STROKE * scale;
   const innerStroke = INNER_STROKE * scale;
   const gap = RING_GAP * scale;
+  const monogramScale = diameter / RING_DIAMETER;
 
   const transitionRing = reducedMotion
     ? "none"
@@ -81,7 +69,7 @@ export function ModelRing({
     const cy = diameter / 2;
 
     return (
-      <g key={`${r}-${stroke}`}>
+      <g>
         <circle
           cx={cx}
           cy={cy}
@@ -109,18 +97,12 @@ export function ModelRing({
   const outerR = (diameter - outerStroke) / 2;
   const innerR = outerR - outerStroke / 2 - gap - innerStroke / 2;
 
-  const displayUsed = bindingOnly
-    ? tweenedBinding
-    : binding === "session"
-      ? tweenedSession
-      : tweenedWeekly;
-
   const ringSvg = (
     <svg
       width={diameter}
       height={diameter}
       viewBox={`0 0 ${diameter} ${diameter}`}
-      className="block -rotate-90"
+      className="block shrink-0 -rotate-90"
       aria-hidden="true"
     >
       {bindingOnly ? (
@@ -140,93 +122,46 @@ export function ModelRing({
     </svg>
   );
 
-  const markSize = 22 * scale;
+  const ringBlock = (
+    <div
+      className="relative shrink-0"
+      style={{ width: diameter, height: diameter }}
+    >
+      {ringSvg}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <ModelMonogram id={model.id} scale={monogramScale} />
+      </div>
+    </div>
+  );
+
+  if (interactive) {
+    return (
+      <button
+        type="button"
+        data-no-drag
+        className={`focus-ring shrink-0 outline-none ${selected ? "opacity-100" : ""}`}
+        style={{ width: diameter, height: diameter }}
+        aria-label={getAriaLabel(model)}
+        aria-pressed={selected}
+        onClick={onSelect}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onSelect?.();
+          }
+        }}
+      >
+        {ringBlock}
+      </button>
+    );
+  }
 
   return (
-    <div
-      className="relative flex flex-col items-center"
-      onMouseEnter={() => interactive && setHovered(true)}
-      onMouseLeave={() => interactive && setHovered(false)}
-    >
-      {interactive ? (
-        <button
-          type="button"
-          data-no-drag
-          className={`focus-ring relative flex flex-col items-center outline-none ${
-            selected ? "opacity-100" : ""
-          }`}
-          aria-label={getAriaLabel(model)}
-          aria-describedby={hovered ? tooltipId : undefined}
-          aria-pressed={selected}
-          onFocus={() => setHovered(true)}
-          onBlur={() => setHovered(false)}
-          onClick={onSelect}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              onSelect?.();
-            }
-          }}
-        >
-          <div className="relative" style={{ width: diameter, height: diameter }}>
-            {ringSvg}
-            {!minimal && (
-              <div className="absolute inset-0 flex items-center justify-center rotate-0">
-                <ModelMark id={model.id} size={markSize} />
-              </div>
-            )}
-          </div>
-          {!minimal && (
-            <span className="widget-percentage mt-1 leading-none">
-              {formatPercent(
-                bindingOnly
-                  ? bindingWindow.used
-                  : getWindow(model, getBindingWindow(model)).used
-              )}
-            </span>
-          )}
-        </button>
-      ) : (
-        <div className="relative flex flex-col items-center">
-          <div className="relative" style={{ width: diameter, height: diameter }}>
-            {ringSvg}
-            {!minimal && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <ModelMark id={model.id} size={markSize} />
-              </div>
-            )}
-          </div>
-          {!minimal && (
-            <span className="widget-percentage mt-1 leading-none">
-              {formatPercent(displayUsed)}
-            </span>
-          )}
-        </div>
-      )}
-
-      {interactive && hovered && (
-        <div
-          id={tooltipId}
-          role="tooltip"
-          className="absolute top-full z-50 mt-2 whitespace-nowrap rounded-lg px-3 py-2 text-[11px] font-normal"
-          style={{
-            background: "var(--tooltip-bg)",
-            color: "rgba(255,255,255,0.92)",
-            border: "1px solid var(--tooltip-border)",
-            boxShadow: "var(--tooltip-shadow)",
-          }}
-        >
-          <div className="font-medium">{model.name}</div>
-          <div className="mt-0.5 opacity-80">
-            Session {formatPercent(model.session.used)} ·{" "}
-            {getWindowLine("session", model.session)}
-          </div>
-          <div className="opacity-80">
-            Weekly {formatPercent(model.weekly.used)} ·{" "}
-            {getWindowLine("weekly", model.weekly)}
-          </div>
-        </div>
-      )}
+    <div aria-labelledby={labelId} role="img" className="shrink-0">
+      <span id={labelId} className="sr-only">
+        {getAriaLabel(model)}
+      </span>
+      {ringBlock}
     </div>
   );
 }
