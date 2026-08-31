@@ -2,15 +2,21 @@
 
 import { useId } from "react";
 import type { Model, WindowKey } from "@/lib/data";
-import { getAriaLabel, getBindingWindow, getWindow, getWindowStatus, NEUTRAL_RING, STATUS_COLORS } from "@/lib/provider-status";
+import {
+  getAriaLabel,
+  getBindingWindow,
+  getWindow,
+  getWindowStatus,
+  NEUTRAL_RING,
+  STATUS_COLORS,
+} from "@/lib/provider-status";
 import { useTweenedValue } from "@/hooks/useTweenedValue";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { ModelSpark } from "./ModelSpark";
+import { ModelIcon, iconSizeForRing } from "@/components/widget/model-icon";
 
 type ModelRingProps = {
   model: Model;
   diameter?: number;
-  /** Single ring for the binding window (medium / small / large row) */
   bindingOnly?: boolean;
 };
 
@@ -39,6 +45,7 @@ export function ModelRing({
   const outerStroke = OUTER_STROKE * scale;
   const innerStroke = INNER_STROKE * scale;
   const gap = RING_GAP * scale;
+  const iconSize = iconSizeForRing(diameter);
 
   const transitionRing = reducedMotion
     ? "none"
@@ -51,7 +58,7 @@ export function ModelRing({
       : NEUTRAL_RING;
   }
 
-  function arcLength(used: number, r: number): string {
+  function dashLength(used: number, r: number): string {
     const circ = 2 * Math.PI * r;
     const filled = circ * Math.min(Math.max(used, 0), 1);
     return `${filled} ${circ}`;
@@ -80,7 +87,7 @@ export function ModelRing({
           stroke={color}
           strokeWidth={stroke}
           strokeLinecap="round"
-          strokeDasharray={arcLength(used, r)}
+          strokeDasharray={dashLength(used, r)}
           style={{ transition: transitionRing }}
         />
       </g>
@@ -91,7 +98,16 @@ export function ModelRing({
   const innerR = outerR - outerStroke / 2 - gap - innerStroke / 2;
 
   return (
-    <div aria-labelledby={labelId} role="img" className="relative shrink-0" style={{ width: diameter, height: diameter }}>
+    <div
+      aria-labelledby={labelId}
+      role="img"
+      className="grid shrink-0"
+      style={{
+        width: diameter,
+        height: diameter,
+        gridTemplateAreas: '"stack"',
+      }}
+    >
       <span id={labelId} className="sr-only">
         {getAriaLabel(model)}
       </span>
@@ -99,8 +115,9 @@ export function ModelRing({
         width={diameter}
         height={diameter}
         viewBox={`0 0 ${diameter} ${diameter}`}
-        className="block shrink-0 -rotate-90"
+        className="-rotate-90"
         aria-hidden="true"
+        style={{ gridArea: "stack" }}
       >
         {bindingOnly ? (
           drawRing(
@@ -117,8 +134,11 @@ export function ModelRing({
           </>
         )}
       </svg>
-      <div className="absolute inset-0 flex items-center justify-center">
-        <ModelSpark ringDiameter={diameter} />
+      <div
+        className="flex items-center justify-center"
+        style={{ gridArea: "stack" }}
+      >
+        <ModelIcon size={iconSize} />
       </div>
     </div>
   );

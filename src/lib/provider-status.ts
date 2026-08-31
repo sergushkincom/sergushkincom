@@ -11,6 +11,7 @@ import {
   applyEffort,
 } from "./data";
 import { copy, type WindowLabel } from "./copy";
+import { fullStatus } from "./status-copy";
 
 export const STATUS_COLORS: Record<ProviderStatus, string> = {
   healthy: "#34C759",
@@ -62,17 +63,24 @@ export function getWindowLine(
   status?: ProviderStatus
 ): string {
   const s = status ?? getWindowStatus(window);
-  const label = windowLabel(key);
-
-  if (s === "empty") return copy.largeBindingEmpty(label, window.resetsInMin);
-
-  const minutesLeft = getMinutesUntilEmpty(window);
-  if (minutesLeft > window.resetsInMin) {
-    return copy.largeBindingHealthy(label, window.resetsInMin);
-  }
-
-  const gap = Math.max(0, window.resetsInMin - minutesLeft);
-  return copy.largeBindingTight(label, gap);
+  const params = {
+    state: s as "healthy" | "tight" | "empty",
+    minutes:
+      s === "empty"
+        ? window.resetsInMin
+        : s === "tight"
+          ? Math.max(
+              0,
+              Math.round(
+                window.resetsInMin -
+                  (window.burnPerMin <= 0 || window.used >= 1
+                    ? 0
+                    : (1 - window.used) / window.burnPerMin)
+              )
+            )
+          : window.resetsInMin,
+  };
+  return fullStatus(key, params.state, params.minutes, "binding");
 }
 
 export function getPrimaryLine(model: Model): string {
