@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+:root {
+  --widget-label: #1d1d1f;
+  --widget-bg: rgba(255, 255, 255, 0.72);
+  --widget-border: rgba(255, 255, 255, 0.18);
+  --tooltip-bg: rgba(255, 255, 255, 0.92);
+  --tooltip-border: rgba(0, 0, 0, 0.08);
+  --menubar-bg: rgba(255, 255, 255, 0.55);
+  --menubar-text: #1d1d1f;
+  --control-bg: rgba(255, 255, 255, 0.75);
+  --control-selected: rgba(255, 255, 255, 0.95);
+  --control-border: rgba(0, 0, 0, 0.08);
+  --control-text: #1d1d1f;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --widget-label: #f5f5f7;
+    --widget-bg: rgba(28, 28, 30, 0.72);
+    --widget-border: rgba(255, 255, 255, 0.18);
+    --tooltip-bg: rgba(44, 44, 46, 0.92);
+    --tooltip-border: rgba(255, 255, 255, 0.1);
+    --menubar-bg: rgba(30, 30, 30, 0.55);
+    --menubar-text: #f5f5f7;
+    --control-bg: rgba(44, 44, 46, 0.75);
+    --control-selected: rgba(58, 58, 60, 0.95);
+    --control-border: rgba(255, 255, 255, 0.1);
+    --control-text: #f5f5f7;
+  }
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.text-primary-num {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.text-secondary {
+  font-size: 11px;
+  font-weight: 400;
+  opacity: 0.6;
+  color: var(--widget-label);
+}
+
+.widget-surface {
+  background: var(--widget-bg);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  box-shadow: inset 0 0 0 1px var(--widget-border);
+  color: var(--widget-label);
+}
+
+.desktop-wallpaper {
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 30%, rgba(120, 160, 255, 0.45) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 75% 20%, rgba(200, 140, 255, 0.35) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 70% at 60% 80%, rgba(100, 200, 180, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 10% 85%, rgba(255, 180, 120, 0.25) 0%, transparent 45%),
+    linear-gradient(145deg, #e8edf5 0%, #dce4f0 40%, #d0dae8 100%);
+}
+
+@media (prefers-color-scheme: dark) {
+  .desktop-wallpaper {
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 30%, rgba(60, 80, 160, 0.35) 0%, transparent 60%),
+      radial-gradient(ellipse 70% 50% at 75% 20%, rgba(100, 60, 140, 0.3) 0%, transparent 55%),
+      radial-gradient(ellipse 60% 70% at 60% 80%, rgba(40, 100, 90, 0.25) 0%, transparent 50%),
+      radial-gradient(ellipse 50% 40% at 10% 85%, rgba(120, 70, 40, 0.2) 0%, transparent 45%),
+      linear-gradient(145deg, #1a1a2e 0%, #16213e 40%, #0f1729 100%);
+  }
+}
