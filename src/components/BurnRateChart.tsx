@@ -42,8 +42,8 @@ export function BurnRateChart() {
         })}
       </svg>
       <div className="flex justify-between mt-1 px-1">
-        <span className="text-[10px] opacity-40">12h ago</span>
-        <span className="text-[10px] opacity-40">Now</span>
+        <span className="text-tertiary">12h ago</span>
+        <span className="text-tertiary">Now</span>
       </div>
     </div>
   );
@@ -60,7 +60,7 @@ export function ResetTimesList({
       <div className="space-y-1.5">
         {providers.map((p) => (
           <div key={p.label} className="flex justify-between text-[11px]">
-            <span className="opacity-60">{p.label}</span>
+            <span className="text-secondary">{p.label}</span>
             <span className="font-medium">{Math.round(p.resetsInMin)}m</span>
           </div>
         ))}

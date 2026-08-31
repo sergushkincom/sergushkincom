@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import type { Scenario, WidgetSize } from "@/lib/data";
 import { SCENARIO_CONFIG } from "@/lib/data";
+import { Wallpaper } from "./desktop/wallpaper";
 import { MenuBar } from "./MenuBar";
 import { UsageWidget } from "./UsageWidget";
 import { SegmentedControl } from "./SegmentedControl";
@@ -33,11 +34,12 @@ export function DesktopStage({ size, scenario }: DesktopStageProps) {
 
   return (
     <div className="relative h-screen w-screen overflow-hidden">
+      <Wallpaper />
       <MenuBar />
 
       <div
         ref={desktopRef}
-        className="desktop-wallpaper absolute inset-0 top-7"
+        className="absolute inset-0 top-7 z-[1]"
         aria-label="Simulated macOS desktop"
       >
         <UsageWidget providers={providers} size={size} desktopRef={desktopRef} />

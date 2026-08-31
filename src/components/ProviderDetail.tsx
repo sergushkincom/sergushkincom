@@ -64,7 +64,7 @@ export function ProviderDetail({ provider, onBack }: ProviderDetailProps) {
           type="button"
           data-no-drag
           onClick={onBack}
-          className="rounded-md px-2 py-1 text-[11px] font-medium opacity-60 outline-none transition-opacity hover:opacity-100 focus-visible:ring-2 focus-visible:ring-[#007AFF]"
+          className="focus-ring rounded-md px-2 py-1 text-[11px] font-medium opacity-60 outline-none transition-opacity hover:opacity-100"
           aria-label={`Back from ${provider.label} details`}
         >
           Back
@@ -83,8 +83,8 @@ export function ProviderDetail({ provider, onBack }: ProviderDetailProps) {
         <p className="text-secondary mb-2">Last 24 hours</p>
         <Sparkline data={sparkData} color={color} />
         <div className="flex justify-between mt-1">
-          <span className="text-[10px] opacity-40">24h ago</span>
-          <span className="text-[10px] opacity-40">Now</span>
+          <span className="text-tertiary">24h ago</span>
+          <span className="text-tertiary">Now</span>
         </div>
       </div>
 

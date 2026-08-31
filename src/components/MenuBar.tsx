@@ -14,11 +14,12 @@ export function MenuBar() {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-40 flex h-7 items-center justify-end px-4"
+      className="fixed top-0 left-0 right-0 z-40 flex h-7 items-center justify-end border-b px-4"
       style={{
         background: "var(--menubar-bg)",
         backdropFilter: "blur(20px) saturate(180%)",
         WebkitBackdropFilter: "blur(20px) saturate(180%)",
+        borderColor: "var(--menubar-border)",
       }}
       aria-label="Menu bar"
     >

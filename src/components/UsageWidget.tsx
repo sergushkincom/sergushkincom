@@ -57,9 +57,7 @@ export function UsageWidget({ providers, size, desktopRef }: UsageWidgetProps) {
   const critical = getCriticalProvider(providers);
   const isFlipped = flippedProvider !== null && flippedProvider !== undefined;
 
-  const shadow = dragging
-    ? "0 20px 48px rgba(0,0,0,.24), 0 4px 12px rgba(0,0,0,.14)"
-    : "0 12px 32px rgba(0,0,0,.18), 0 2px 6px rgba(0,0,0,.10)";
+  const shadow = dragging ? "var(--widget-shadow-lift)" : "var(--widget-shadow)";
 
   const transform = dragging && !reducedMotion ? "scale(1.02)" : "scale(1)";
 

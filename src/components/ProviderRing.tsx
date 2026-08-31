@@ -58,9 +58,7 @@ export function ProviderRing({
       <button
         type="button"
         data-no-drag
-        className={`relative flex items-center justify-center rounded-full outline-none transition-transform duration-[120ms] ${
-          focused ? "ring-2 ring-[#007AFF] ring-offset-2 ring-offset-transparent" : ""
-        }`}
+        className={`focus-ring relative flex items-center justify-center rounded-full outline-none transition-transform duration-[120ms]`}
         style={{ width: size, height: size }}
         aria-label={getAriaLabel(provider)}
         aria-describedby={hovered ? tooltipId : undefined}
@@ -118,11 +116,12 @@ export function ProviderRing({
         <div
           id={tooltipId}
           role="tooltip"
-          className="absolute top-full z-50 mt-2 whitespace-nowrap rounded-lg px-3 py-2 text-[11px] font-normal shadow-lg transition-opacity duration-[120ms]"
+          className="absolute top-full z-50 mt-2 whitespace-nowrap rounded-lg px-3 py-2 text-[11px] font-normal transition-opacity duration-[120ms]"
           style={{
             background: "var(--tooltip-bg)",
             color: "var(--widget-label)",
             border: "1px solid var(--tooltip-border)",
+            boxShadow: "var(--tooltip-shadow)",
           }}
         >
           <span className="font-medium">{provider.label}</span>
