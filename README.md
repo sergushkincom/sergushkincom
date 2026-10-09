@@ -51,6 +51,6 @@ answer it — so I build the answer instead.
 ### Find me
 
 [![Portfolio](https://img.shields.io/badge/sergushkin.com-000?style=flat&logo=safari&logoColor=white)](https://sergushkin.com)
-[![Dribbble](https://img.shields.io/badge/Dribbble-EA4C89?style=flat&logo=dribbble&logoColor=white)](https://dribbble.com/sergushkincom)
+[![Behance](https://img.shields.io/badge/Behance-1769FF?style=flat&logo=behance&logoColor=white)](https://behance.net/sergushkincom)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://linkedin.com/in/sergushkincom)
 [![X](https://img.shields.io/badge/@sergushkincom-000?style=flat&logo=x&logoColor=white)](https://x.com/sergushkincom)
