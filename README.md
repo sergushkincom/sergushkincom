@@ -14,6 +14,7 @@ answer it — so I build the answer instead.
 |---|---|---|
 | [Agentic UX Lab](https://github.com/sergushkincom/agentic-ux-lab) | When you're spending a finite allowance, what number do you actually need to see? | [Live demo →](https://agentic-ux-lab.vercel.app/experiments/usage-widget) |
 | [Workflow canvas](https://github.com/sergushkincom/workflow-canvas) | What does an interface look like when a system is honest about not knowing? | [Live demo →](https://denys-workflow-canvas.vercel.app/experiments/workflow-canvas) |
+| [Knowledge Atlas](https://github.com/sergushkincom/knowledge-atlas) | What if you could see where an AI was guessing, and overrule it? | [Live demo →](https://denys-knowledge-atlas.vercel.app) |
 
 ---
 
@@ -52,5 +53,6 @@ answer it — so I build the answer instead.
 
 [![Portfolio](https://img.shields.io/badge/sergushkin.com-000?style=flat&logo=safari&logoColor=white)](https://sergushkin.com)
 [![Behance](https://img.shields.io/badge/Behance-1769FF?style=flat&logo=behance&logoColor=white)](https://behance.net/sergushkincom)
+[![Dribbble](https://img.shields.io/badge/Dribbble-EA4C89?style=flat&logo=dribbble&logoColor=white)](https://dribbble.com/sergushkincom)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://linkedin.com/in/sergushkincom)
 [![X](https://img.shields.io/badge/@sergushkincom-000?style=flat&logo=x&logoColor=white)](https://x.com/sergushkincom)
