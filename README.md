@@ -1,6 +1,6 @@
 # Denys Sergushkin
 
-**Principal Product Designer — agentic UX for B2B and ERP**
+**Design Engineer & Principal Product Designer — agentic UX for B2B and ERP**
 
 14 years designing complex systems: ERP, AI-powered SaaS, enterprise workflows.
 When a design question is about latency, autonomy or trust, a static mock cannot
