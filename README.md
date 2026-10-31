@@ -1,4 +1,4 @@
-# Denys Sergushkin
+# Denys Sergushkin 👋
 
 **Design Engineer & Principal Product Designer — agentic UX for B2B and ERP**
 
