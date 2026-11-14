@@ -1,58 +1,51 @@
-# Denys Sergushkin 👋
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.svg">
+  <img alt="Denys Sergushkin. Systems thinker, design engineer, agentic UX." src="assets/banner-light.svg" width="100%">
+</picture>
 
-**Design Engineer & Principal Product Designer — agentic UX for B2B and ERP**
+I design and build interfaces for software that acts on its own: an AI agent does part of the work, and a person stays in charge.
+14 years on complex systems: ERP, B2B SaaS, AI workflows. When a question is about latency, autonomy or trust, a static mock can't answer it, so I build the answer.
 
-14 years designing complex systems: ERP, AI-powered SaaS, enterprise workflows.
-When a design question is about latency, autonomy or trust, a static mock cannot
-answer it — so I build the answer instead.
+### Selected work
 
----
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://agentic-ui-docs.vercel.app"><img src="assets/card-agentic-ui.jpg" alt="agentic-ui: React components for products where an agent does part of the work"></a>
+      <br><a href="https://github.com/sergushkincom/agentic-ui"><b>agentic-ui</b></a> · <a href="https://agentic-ui-docs.vercel.app">docs</a>
+    </td>
+    <td width="50%" valign="top">
+      <a href="https://world-parts.vercel.app"><img src="assets/card-world-parts.jpg" alt="World Parts: find a spare part in a segmented 3D world"></a>
+      <br><a href="https://github.com/sergushkincom/world-parts"><b>World Parts</b></a> · <a href="https://world-parts.vercel.app">live</a>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://agentic-ux-lab.vercel.app"><img src="assets/card-agentic-ux-lab.jpg" alt="Agentic UX Lab: design experiments in code"></a>
+      <br><a href="https://github.com/sergushkincom/agentic-ux-lab"><b>Agentic UX Lab</b></a> · <a href="https://agentic-ux-lab.vercel.app">live</a>
+    </td>
+    <td width="50%" valign="top">
+      <a href="https://denys-workflow-canvas.vercel.app/experiments/workflow-canvas"><img src="assets/card-workflow-canvas.jpg" alt="Workflow canvas: a workflow builder that is honest about not knowing"></a>
+      <br><a href="https://github.com/sergushkincom/workflow-canvas"><b>Workflow canvas</b></a> · <a href="https://denys-workflow-canvas.vercel.app/experiments/workflow-canvas">live</a>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://permission-rings.vercel.app"><img src="assets/card-permission-rings.jpg" alt="Permission rings: how far a scheduling agent may go"></a>
+      <br><a href="https://github.com/sergushkincom/permission-rings"><b>Permission rings</b></a> · <a href="https://permission-rings.vercel.app">live</a>
+    </td>
+    <td width="50%" valign="top">
+      <a href="https://denys-knowledge-atlas.vercel.app"><img src="assets/card-knowledge-atlas.jpg" alt="Knowledge Atlas: see where an AI was guessing, and overrule it"></a>
+      <br><a href="https://github.com/sergushkincom/knowledge-atlas"><b>Knowledge Atlas</b></a> · <a href="https://denys-knowledge-atlas.vercel.app">live</a>
+    </td>
+  </tr>
+</table>
 
-### Building in the open
+### Career, briefly
 
-| Project | The question it answers | |
-|---|---|---|
-| [Agentic UX Lab](https://github.com/sergushkincom/agentic-ux-lab) | When you're spending a finite allowance, what number do you actually need to see? | [Live demo →](https://agentic-ux-lab.vercel.app/experiments/usage-widget) |
-| [Workflow canvas](https://github.com/sergushkincom/workflow-canvas) | What does an interface look like when a system is honest about not knowing? | [Live demo →](https://denys-workflow-canvas.vercel.app/experiments/workflow-canvas) |
-| [Knowledge Atlas](https://github.com/sergushkincom/knowledge-atlas) | What if you could see where an AI was guessing, and overrule it? | [Live demo →](https://denys-knowledge-atlas.vercel.app) |
+- **Xentral**: led UX for the AI-powered workflow builder; the agentic features are now a core part of sales demos.
+- **Filemail**: trial-to-paid conversion from 40% to 53%; a CMS component library that cut page ship time 10×.
+- **Gelato**: led 6 designers across 15 countries; mobile redesign with a 20%+ conversion uplift.
+- **Microsoft**: started on Dynamics AX (Finance, Logistics, Manufacturing).
 
----
-
-### What I'm focused on
-
-- **Agentic UX** — interfaces where AI acts and humans supervise
-- **AI workflow builders** for B2B SaaS and ERP automation
-- **Prototyping in code** — settling interaction questions before they reach Figma
-
----
-
-### Career highlights
-
-- **Xentral** — Led UX for AI-powered workflow builder. Agentic features now a core part of sales demos
-- **Filemail** — Trial-to-paid conversion 40% → 53%. Built CMS component library cutting page ship time 10×
-- **Gelato** — Led 6 designers across 15 countries. 20%+ conversion uplift on mobile redesign
-- **Microsoft** — Started career designing Dynamics AX (Finance, Logistics, Manufacturing)
-
----
-
-### Design expertise
-
-`Systems Design` `Information Architecture` `Agentic UX` `AI Workflow Automation`  
-`Enterprise SaaS` `ERP` `UX Strategy` `Design Leadership` `Business Process Modeling`
-
-### Prototyping with
-
-![Next.js](https://img.shields.io/badge/Next.js-000?style=flat&logo=nextdotjs&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
-![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB)
-![Tailwind](https://img.shields.io/badge/Tailwind-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
-
----
-
-### Find me
-
-[![Portfolio](https://img.shields.io/badge/sergushkin.com-000?style=flat&logo=safari&logoColor=white)](https://sergushkin.com)
-[![Behance](https://img.shields.io/badge/Behance-1769FF?style=flat&logo=behance&logoColor=white)](https://behance.net/sergushkincom)
-[![Dribbble](https://img.shields.io/badge/Dribbble-EA4C89?style=flat&logo=dribbble&logoColor=white)](https://dribbble.com/sergushkincom)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://linkedin.com/in/sergushkincom)
-[![X](https://img.shields.io/badge/@sergushkincom-000?style=flat&logo=x&logoColor=white)](https://x.com/sergushkincom)
+[sergushkin.com](https://sergushkin.com) · [LinkedIn](https://linkedin.com/in/sergushkincom) · [X](https://x.com/sergushkincom) · [Dribbble](https://dribbble.com/sergushkincom) · [Behance](https://behance.net/sergushkincom)
