@@ -1,7 +1,9 @@
+<a href="https://sergushkin.com">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.svg">
-  <img alt="Denys Sergushkin. Systems thinker, design engineer, agentic UX." src="assets/banner-light.svg" width="100%">
+  <img alt="Denys Sergushkin. Systems thinker, design engineer, agentic UX. Opens sergushkin.com." src="assets/banner-light.svg" width="100%">
 </picture>
+</a>
 
 I design and build interfaces for software that acts on its own: an AI agent does part of the work, and a person stays in charge.
 14 years on complex systems: ERP, B2B SaaS, AI workflows. When a question is about latency, autonomy or trust, a static mock can't answer it, so I build the answer.
