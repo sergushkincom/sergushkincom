@@ -43,6 +43,16 @@ I design and build interfaces for software that acts on its own: an AI agent doe
   </tr>
 </table>
 
+### Building in the open
+
+| Project | The question it answers | |
+|---|---|---|
+| [Funding radar](https://github.com/sergushkincom/funding-radar) | Which Munich-area startups have fresh money, an open role, and a reason to talk now? | [Live demo →](https://funding-radar-two.vercel.app) |
+| [Grocery first order](https://github.com/sergushkincom/grocery-first-order-prototype) | What if a new customer saw the deal before building the cart? | [Live demo →](https://grocery-first-order-prototype.vercel.app) |
+| [Keyword Tracker](https://github.com/sergushkincom/keyword-tracker) | What if the rank table is the chart? | [Live demo →](https://keyword-tracker-nine.vercel.app) |
+| [Design engineering shelf](https://github.com/sergushkincom/design-engineering-shelf) | Which books, courses and people actually help a designer who builds? | [Read the shelf →](https://github.com/sergushkincom/design-engineering-shelf#readme) |
+| [DX Grid Inspector](https://github.com/JennHull-builds/dx-grid-inspector) (contribution) | Can a colour field refuse a value the browser can't read? | [Open PR →](https://github.com/JennHull-builds/dx-grid-inspector/pull/7) |
+
 ### Career, briefly
 
 - **Xentral**: led UX for the AI-powered workflow builder; the agentic features are now a core part of sales demos.
