@@ -1,3 +1,4 @@
+<!-- Banner pixel glints are an original SVG animation, inspired by pixelfx (MIT) by Patch and Hugo Duprez: https://github.com/patch-gg/pixelfx -->
 <a href="https://sergushkin.com">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.svg">
