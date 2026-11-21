@@ -43,15 +43,47 @@ Each row is the name, one plain sentence, a Live link, and a Repo link.
 
 To add a project, copy a `<tr>` into the group it belongs to. Keep the sentence to one line. Do not add a second image grid for the same projects.
 
-## Gallery images
+## Gallery
 
-Six cells: World Parts, agentic-ui, Redline Supply, Because, Workflow canvas, Knowledge Atlas.
+Six cells, two columns: World Parts, agentic-ui, Redline Supply, Because, Workflow canvas, Knowledge Atlas. Above the cards is the link "Browse all prototypes by topic", to https://projects-gallery.vercel.app. That page filters the prototypes. Keep the link. It is not a second image grid.
 
-Files live in `assets/card-*.jpg`. The older cards are 1200×840. New shots are 1600×1120, the same proportions, so a row stays even. Capture with a 1600×1120 viewport, light colour scheme, reduced motion, then save a progressive JPEG around quality 76. Redline is the review table. Because is the revenue bridge. If those routes move, shoot the screen that still shows a value with its source and a decision, or a number with the reason beside it.
+The pictures are 1280×640, two to one. Three columns made that ratio a thin strip, too short to read the type, so each row is two cells. Every image is `width="100%"`. The cards bring their own background, so the same files sit on GitHub's light page and dark page without a second set.
 
-`assets/card-agentic-ux-lab.jpg` and `assets/card-permission-rings.jpg` are spare. Swap one into the gallery by editing the cell. Keep the project in its topic group either way.
+Still cards live in `assets/cards/card-<repo>.jpg`. Clips live in `assets/gifs/<repo>.gif`, inside a closed `<details>` whose summary is "Watch it move". The page opens on the still cards. The clip is there when someone asks for it.
 
-The banner is `assets/banner-light.svg` and `assets/banner-dark.svg`, inside `<picture>`. Use `<picture>` only when a light file and a dark file both exist. A product screenshot does not need a dark twin unless you actually captured one.
+World Parts keeps the earlier storeroom card. The unified yellow card is a room photo, and the 3D view is the stronger picture. The old file was 1200×840, so it is fitted into 1280×640 on the card's own pale background and saved as `assets/cards/card-world-parts.jpg`. Do not replace it with the yellow card.
+
+The other five are the unified cards, already 1280×640, set in Red Hat Display, one colour each: `card-agentic-ui.jpg`, `card-redline-supply.jpg`, `card-battery-because.jpg`, `card-workflow-canvas.jpg`, `card-knowledge-atlas.jpg`. Copy the JPEG as it is. Do not scale it back to 1200×840.
+
+### Regenerating a card
+
+The unified set is drawn outside this repo. To refresh one, replace the file in `assets/cards/` and keep the name. If you add a project to the gallery, it needs a 1280×640 card in that folder or the row heights will not match. The old 1200×840 files are gone.
+
+### Regenerating a clip
+
+A clip is 3 to 5 seconds, looping, of the main interaction on the live demo. Record it in Chrome with Playwright, then encode with ffmpeg's palette and gifsicle. `scripts/record-gifs.mjs` does both. Keep each file under about 3MB, and the six together under 12MB. Around 800 pixels wide and 8 frames a second is enough at the size the profile shows them.
+
+What each clip should show:
+
+- World Parts: the storeroom, then the corridor button. Stay on Still. Live 3D fetches a large splat and the picture goes black, so leave that out.
+- agentic-ui: the agent-run example, scrolled so the steps fill the frame.
+- Redline: the RoHS review. Click a check that is already on screen, with the mouse, so the IBAN line asks for a second approver. A normal Playwright click scrolls the table and cuts the row labels off.
+- Because: the "why revenue changed" page, from the moment the bridge starts drawing.
+- Workflow canvas: open Triage support tickets, run Test run, and hold on the moment it stops and asks.
+- Knowledge Atlas: Re-sort, so the graph moves and the note says the corrections stayed.
+
+If a take is broken (blank view, a spinner that never finishes, labels cut off), do not ship it. Say which demo you left out.
+
+You need Chrome, ffmpeg, and gifsicle. Install Playwright outside the repo and point Node at it:
+
+```
+npm install --prefix /tmp/giftools playwright
+NODE_PATH=/tmp/giftools/node_modules node scripts/record-gifs.mjs
+```
+
+The script writes `assets/gifs/`. Pass a name (`world-parts`, `agentic-ui`, `redline-supply`, `battery-because`, `workflow-canvas`, `knowledge-atlas`) to redo one.
+
+The banner is `assets/banner-light.svg` and `assets/banner-dark.svg`, inside `<picture>`. Use `<picture>` only when a light file and a dark file both exist. A product card does not need a dark twin. The clips are GIFs. GitHub plays those. An animated WebP often shows only the first frame, so do not switch.
 
 No stats cards, streaks, trophies, visitor counters, snakes, or badge walls.
 
