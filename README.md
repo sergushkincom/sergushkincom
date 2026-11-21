@@ -6,84 +6,148 @@
 </picture>
 </a>
 
-<table>
-  <tr>
-    <td width="33%" valign="top">
-      <a href="https://agentic-ui-docs.vercel.app"><img src="assets/collage/agentic-ui.jpg" alt="agentic-ui: what the agent is doing, how sure it is, and a field a person can take back"></a>
-      <br><a href="https://agentic-ui-docs.vercel.app"><b>agentic-ui</b></a>
-    </td>
-    <td width="33%" valign="top">
-      <a href="https://world-parts.vercel.app/?room=storeroom&object=rack&part=BRG-6305"><img src="assets/collage/world-parts.jpg" alt="World Parts: the storeroom in 3D, a rack lifted out with its bins"></a>
-      <br><a href="https://world-parts.vercel.app/?room=storeroom&object=rack&part=BRG-6305"><b>World Parts</b></a>
-    </td>
-    <td width="33%" valign="top">
-      <a href="https://denys-knowledge-atlas.vercel.app"><img src="assets/collage/knowledge-atlas.jpg" alt="Knowledge Atlas: notes grouped by an AI, with the low-confidence ones marked"></a>
-      <br><a href="https://denys-knowledge-atlas.vercel.app"><b>Knowledge Atlas</b></a>
-    </td>
-  </tr>
-  <tr>
-    <td width="33%" valign="top">
-      <a href="https://denys-workflow-canvas.vercel.app/experiments/workflow-canvas"><img src="assets/collage/workflow-canvas.jpg" alt="Workflow canvas: a ticket flow that stops and asks when it is not sure"></a>
-      <br><a href="https://denys-workflow-canvas.vercel.app/experiments/workflow-canvas"><b>Workflow canvas</b></a>
-    </td>
-    <td width="33%" valign="top">
-      <a href="https://agentic-ux-lab.vercel.app"><img src="assets/collage/agentic-ux-lab.jpg" alt="Agentic UX Lab: a workflow that waits, and a widget for a finite AI allowance"></a>
-      <br><a href="https://agentic-ux-lab.vercel.app"><b>Agentic UX Lab</b></a>
-    </td>
-    <td width="33%" valign="top">
-      <a href="https://grocery-first-order-prototype.vercel.app"><img src="assets/collage/grocery.jpg" alt="Grocery first order: the 10 euro start credit, before the cart"></a>
-      <br><a href="https://grocery-first-order-prototype.vercel.app"><b>Grocery first order</b></a>
-    </td>
-  </tr>
-</table>
-
 I design and build interfaces for software that acts on its own: an AI agent does part of the work, and a person stays in charge.
 14 years on complex systems: ERP, B2B SaaS, AI workflows. When a question is about latency, autonomy or trust, a static mock can't answer it, so I build the answer.
+
+<!-- this-week: edit the next line by hand. No GitHub Action. See docs/PROJECT.md. -->
+
+**This week.** I shipped the [Redline Supply](https://redline-supply-seven.vercel.app) prototype, gave [agentic-ui](https://agentic-ui-docs.vercel.app/changelog) thirteen n8n-style pieces for showing a running agent, made a comment in [Agentic UX Lab](https://agentic-ux-lab.vercel.app) open the exact moment in a session, and put together a CV page template for the site. I want the agent UI to show what the agent is doing and let you step in, not just a chat box.
 
 ### Selected work
 
 <table>
   <tr>
-    <td width="50%" valign="top">
-      <a href="https://agentic-ui-docs.vercel.app"><img src="assets/card-agentic-ui.jpg" alt="agentic-ui: React components for products where an agent does part of the work"></a>
-      <br><a href="https://github.com/sergushkincom/agentic-ui"><b>agentic-ui</b></a> · <a href="https://agentic-ui-docs.vercel.app">docs</a>
-    </td>
-    <td width="50%" valign="top">
+    <td width="33%" valign="top">
       <a href="https://world-parts.vercel.app"><img src="assets/card-world-parts.jpg" alt="World Parts: find a spare part in a segmented 3D world"></a>
-      <br><a href="https://github.com/sergushkincom/world-parts"><b>World Parts</b></a> · <a href="https://world-parts.vercel.app">live</a>
+      <br><b>World Parts</b> · <a href="https://world-parts.vercel.app">Live</a> · <a href="https://github.com/sergushkincom/world-parts">Repo</a>
+    </td>
+    <td width="33%" valign="top">
+      <a href="https://agentic-ui-docs.vercel.app"><img src="assets/card-agentic-ui.jpg" alt="agentic-ui: what the agent is doing, how sure it is, and a field a person can take back"></a>
+      <br><b>agentic-ui</b> · <a href="https://agentic-ui-docs.vercel.app">Live</a> · <a href="https://github.com/sergushkincom/agentic-ui">Repo</a>
+    </td>
+    <td width="33%" valign="top">
+      <a href="https://redline-supply-seven.vercel.app/requests/cmp_rohs/review"><img src="assets/card-redline-supply.jpg" alt="Redline Supply: the current value beside the supplier's answer, with a source and a yes or no on each row"></a>
+      <br><b>Redline Supply</b> · <a href="https://redline-supply-seven.vercel.app/requests/cmp_rohs/review">Live</a> · <a href="https://github.com/sergushkincom/redline-supply">Repo</a>
     </td>
   </tr>
   <tr>
-    <td width="50%" valign="top">
-      <a href="https://agentic-ux-lab.vercel.app"><img src="assets/card-agentic-ux-lab.jpg" alt="Agentic UX Lab: design experiments in code"></a>
-      <br><a href="https://github.com/sergushkincom/agentic-ux-lab"><b>Agentic UX Lab</b></a> · <a href="https://agentic-ux-lab.vercel.app">live</a>
+    <td width="33%" valign="top">
+      <a href="https://battery-because.vercel.app/assets/lechfeld-1/why?role=owner&portfolio=kestrel&period=7d&loc=en-GB&date=2026-11-18"><img src="assets/card-because.jpg" alt="Because: a revenue bridge for a battery, and the sentences that use those same euros"></a>
+      <br><b>Because</b> · <a href="https://battery-because.vercel.app/assets/lechfeld-1/why?role=owner&portfolio=kestrel&period=7d&loc=en-GB&date=2026-11-18">Live</a> · <a href="https://github.com/sergushkincom/battery-because">Repo</a>
     </td>
-    <td width="50%" valign="top">
+    <td width="33%" valign="top">
       <a href="https://denys-workflow-canvas.vercel.app/experiments/workflow-canvas"><img src="assets/card-workflow-canvas.jpg" alt="Workflow canvas: a workflow builder that is honest about not knowing"></a>
-      <br><a href="https://github.com/sergushkincom/workflow-canvas"><b>Workflow canvas</b></a> · <a href="https://denys-workflow-canvas.vercel.app/experiments/workflow-canvas">live</a>
+      <br><b>Workflow canvas</b> · <a href="https://denys-workflow-canvas.vercel.app/experiments/workflow-canvas">Live</a> · <a href="https://github.com/sergushkincom/workflow-canvas">Repo</a>
     </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <a href="https://permission-rings.vercel.app"><img src="assets/card-permission-rings.jpg" alt="Permission rings: how far a scheduling agent may go"></a>
-      <br><a href="https://github.com/sergushkincom/permission-rings"><b>Permission rings</b></a> · <a href="https://permission-rings.vercel.app">live</a>
-    </td>
-    <td width="50%" valign="top">
+    <td width="33%" valign="top">
       <a href="https://denys-knowledge-atlas.vercel.app"><img src="assets/card-knowledge-atlas.jpg" alt="Knowledge Atlas: see where an AI was guessing, and overrule it"></a>
-      <br><a href="https://github.com/sergushkincom/knowledge-atlas"><b>Knowledge Atlas</b></a> · <a href="https://denys-knowledge-atlas.vercel.app">live</a>
+      <br><b>Knowledge Atlas</b> · <a href="https://denys-knowledge-atlas.vercel.app">Live</a> · <a href="https://github.com/sergushkincom/knowledge-atlas">Repo</a>
     </td>
   </tr>
 </table>
 
-### Building in the open
+### By topic
 
-| Project | The question it answers | |
-|---|---|---|
-| [Funding radar](https://github.com/sergushkincom/funding-radar) | Which Munich-area startups have fresh money, an open role, and a reason to talk now? | [Live demo →](https://funding-radar-two.vercel.app) |
-| [Grocery first order](https://github.com/sergushkincom/grocery-first-order-prototype) | What if a new customer saw the deal before building the cart? | [Live demo →](https://grocery-first-order-prototype.vercel.app) |
-| [Keyword Tracker](https://github.com/sergushkincom/keyword-tracker) | What if the rank table is the chart? | [Live demo →](https://denys-keyword-tracker.vercel.app) |
-| [Design engineering shelf](https://github.com/sergushkincom/design-engineering-shelf) | Which books, courses and people actually help a designer who builds? | [Read the shelf →](https://github.com/sergushkincom/design-engineering-shelf#readme) |
-| [DX Grid Inspector](https://github.com/JennHull-builds/dx-grid-inspector) (contribution) | Can a colour field refuse a value the browser can't read? | [Open PR →](https://github.com/JennHull-builds/dx-grid-inspector/pull/7) |
+The whole list. Open a theme. A live link is here only when that demo is up.
+
+<details>
+<summary><b>Agentic UI &amp; AI agents</b></summary>
+<table>
+  <tr>
+    <td width="24%" valign="top"><b>agentic-ui</b></td>
+    <td valign="top">What the agent is doing, how sure it is, and where a person can take the work back.</td>
+    <td width="22%" valign="top" align="right"><a href="https://agentic-ui-docs.vercel.app">Live</a> · <a href="https://github.com/sergushkincom/agentic-ui">Repo</a></td>
+  </tr>
+  <tr>
+    <td width="24%" valign="top"><b>Because</b></td>
+    <td valign="top">A battery console where every number comes with the reason.</td>
+    <td width="22%" valign="top" align="right"><a href="https://battery-because.vercel.app">Live</a> · <a href="https://github.com/sergushkincom/battery-because">Repo</a></td>
+  </tr>
+  <tr>
+    <td width="24%" valign="top"><b>Workflow canvas</b></td>
+    <td valign="top">A ticket flow that stops and asks when it is not sure.</td>
+    <td width="22%" valign="top" align="right"><a href="https://denys-workflow-canvas.vercel.app/experiments/workflow-canvas">Live</a> · <a href="https://github.com/sergushkincom/workflow-canvas">Repo</a></td>
+  </tr>
+  <tr>
+    <td width="24%" valign="top"><b>Knowledge Atlas</b></td>
+    <td valign="top">Notes an AI grouped, with the low-confidence ones marked so you can overrule them.</td>
+    <td width="22%" valign="top" align="right"><a href="https://denys-knowledge-atlas.vercel.app">Live</a> · <a href="https://github.com/sergushkincom/knowledge-atlas">Repo</a></td>
+  </tr>
+  <tr>
+    <td width="24%" valign="top"><b>Permission rings</b></td>
+    <td valign="top">How far a scheduling agent may go with other people's time.</td>
+    <td width="22%" valign="top" align="right"><a href="https://permission-rings.vercel.app">Live</a> · <a href="https://github.com/sergushkincom/permission-rings">Repo</a></td>
+  </tr>
+  <tr>
+    <td width="24%" valign="top"><b>Agentic UX Lab</b></td>
+    <td valign="top">Interaction experiments for AI software, built in code.</td>
+    <td width="22%" valign="top" align="right"><a href="https://agentic-ux-lab.vercel.app">Live</a> · <a href="https://github.com/sergushkincom/agentic-ux-lab">Repo</a></td>
+  </tr>
+</table>
+</details>
+
+<details>
+<summary><b>3D &amp; spatial</b></summary>
+<table>
+  <tr>
+    <td width="24%" valign="top"><b>World Parts</b></td>
+    <td valign="top">Find a spare part in a segmented 3D plant, room by room.</td>
+    <td width="22%" valign="top" align="right"><a href="https://world-parts.vercel.app">Live</a> · <a href="https://github.com/sergushkincom/world-parts">Repo</a></td>
+  </tr>
+</table>
+</details>
+
+<details>
+<summary><b>ERP &amp; B2B tools</b></summary>
+<table>
+  <tr>
+    <td width="24%" valign="top"><b>Redline Supply</b></td>
+    <td valign="top">Ask suppliers once, then approve every change with the old value, the new value, and the source.</td>
+    <td width="22%" valign="top" align="right"><a href="https://redline-supply-seven.vercel.app">Live</a> · <a href="https://github.com/sergushkincom/redline-supply">Repo</a></td>
+  </tr>
+  <tr>
+    <td width="24%" valign="top"><b>ERP navigation</b></td>
+    <td valign="top">Six navigation layers on one ERP screen, and one rule so they agree.</td>
+    <td width="22%" valign="top" align="right"><a href="https://erp-navigation-concept.vercel.app">Live</a> · <a href="https://github.com/sergushkincom/erp-navigation-concept">Repo</a></td>
+  </tr>
+  <tr>
+    <td width="24%" valign="top"><b>Funding radar</b></td>
+    <td valign="top">Which Munich-area startups have fresh money, an open role, and a reason to talk now?</td>
+    <td width="22%" valign="top" align="right"><a href="https://funding-radar-two.vercel.app">Live</a> · <a href="https://github.com/sergushkincom/funding-radar">Repo</a></td>
+  </tr>
+  <tr>
+    <td width="24%" valign="top"><b>Relative</b></td>
+    <td valign="top">Whether one product is actually lower-impact, and which stage of its life makes the gap.</td>
+    <td width="22%" valign="top" align="right"><a href="https://impact-compare.vercel.app">Live</a> · <a href="https://github.com/sergushkincom/impact-compare">Repo</a></td>
+  </tr>
+</table>
+</details>
+
+<details>
+<summary><b>Small tools &amp; experiments</b></summary>
+<table>
+  <tr>
+    <td width="24%" valign="top"><b>Keyword Tracker</b></td>
+    <td valign="top">What if the rank table is the chart?</td>
+    <td width="22%" valign="top" align="right"><a href="https://keyword-tracker-nine.vercel.app">Live</a> · <a href="https://github.com/sergushkincom/keyword-tracker">Repo</a></td>
+  </tr>
+  <tr>
+    <td width="24%" valign="top"><b>Grocery first order</b></td>
+    <td valign="top">What if a new customer saw the deal before building the cart?</td>
+    <td width="22%" valign="top" align="right"><a href="https://grocery-first-order-prototype.vercel.app">Live</a> · <a href="https://github.com/sergushkincom/grocery-first-order-prototype">Repo</a></td>
+  </tr>
+  <tr>
+    <td width="24%" valign="top"><b>Design engineering shelf</b></td>
+    <td valign="top">Which books, courses and people actually help a designer who builds?</td>
+    <td width="22%" valign="top" align="right"><a href="https://github.com/sergushkincom/design-engineering-shelf#readme">Repo</a></td>
+  </tr>
+  <tr>
+    <td width="24%" valign="top"><b>DX Grid Inspector</b></td>
+    <td valign="top">Can a colour field refuse a value the browser can't read? Contribution.</td>
+    <td width="22%" valign="top" align="right"><a href="https://github.com/JennHull-builds/dx-grid-inspector">Repo</a> · <a href="https://github.com/JennHull-builds/dx-grid-inspector/pull/7">Pull request</a></td>
+  </tr>
+</table>
+</details>
 
 ### How I work with AI agents
 
