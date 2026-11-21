@@ -2,13 +2,29 @@
 
 This repository is the GitHub profile page: [github.com/sergushkincom](https://github.com/sergushkincom). GitHub renders `README.md` and strips JavaScript, so a filter has to be a `<details>` block, not a script.
 
-The page is, in order: the banner, two sentences, the **This week** line, one image gallery, the full list grouped by topic, the note on working with AI agents, a short career list, and the links.
+The page is, in order: the banner, two sentences, the **This week** line, one image gallery, **Recently shipped**, the full list grouped by topic, the note on working with AI agents, **Ideas I want to try**, a short career list, and the links.
 
 ## This week
 
-The sentence under the introduction is edited by hand. An HTML comment directly above it starts with `this-week` and is only a reminder. Do not put a `[DENYS: ...]` note back on that line. Do not add a GitHub Action.
+The sentence under the introduction is edited by hand. An HTML comment directly above it starts with `this-week` and is only a reminder. Do not put a `[DENYS: ...]` note back on that line. Do not add a GitHub Action for this line. The weekly Action rewrites Recently shipped and Ideas only, and it leaves this sentence alone.
 
 On 21 Nov 2026 the line says, in first person: Redline Supply is live, agentic-ui got thirteen pieces for showing a running agent, a comment in Agentic UX Lab opens the exact moment in a session, and there is a CV page template for the site. The second sentence is the reason: show what the agent is doing and let a person step in, not just a chat box. The CV template has no public URL (`sergushkin.com/cv` redirects to `/about`, and the theme repository is not a public page), so the line does not link it.
+
+## Recently shipped
+
+The block under the gallery, between `<!-- SHIPPED:START -->` and `<!-- SHIPPED:END -->`, is rewritten by `scripts/update-readme-sections.mjs`. It lists the five most recently merged pull requests in the public repositories. Each line has the title, which links to the pull request, the repository, and the merge date in UTC. When one of those repositories has a homepage set to a web address, that address is listed under Live demos. A homepage that is only github.com, or only sergushkin.com, is left off. This repository's homepage is the personal site, so it is not a live demo. The script does not check that a homepage returns 200. The Live links in the gallery and in By topic still follow that rule.
+
+The search is `is:pr is:merged author:sergushkincom user:sergushkincom`, on the public GitHub API, with `GITHUB_TOKEN`. If the token cannot read public search, the script tries once without it.
+
+`.github/workflows/recently-shipped.yml` runs the script every Monday at 06:00 UTC, and when someone starts the workflow by hand. GitHub may start the scheduled run a few minutes late. The workflow commits `README.md` only when the generated text changed, as github-actions[bot]. It does not open a pull request, and it does not commit any other file.
+
+Do not edit the text between the markers by hand. The next run replaces it. Keep the markers below the gallery. If a marker is missing, or a rewrite would change the This week line or the gallery table, the script stops and writes nothing.
+
+## Ideas
+
+The block before the career list, between `<!-- IDEAS:START -->` and `<!-- IDEAS:END -->`, is rewritten by the same script. It links up to six open issues, newest first, whose titles start with `Idea:`. The last line asks people to comment on the issue. Do not enable Discussions. An idea that is not an open issue with that title does not appear.
+
+The Monday workflow updates this block together with Recently shipped. Pull requests run `.github/workflows/check-profile-sections.yml`, which runs `node scripts/update-readme-sections.mjs --dry-run`. The dry run fetches the same data, checks the markers, and does not write the file.
 
 ## By topic
 

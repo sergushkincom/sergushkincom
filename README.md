@@ -46,6 +46,18 @@ I design and build interfaces for software that acts on its own: an AI agent doe
   </tr>
 </table>
 
+### Recently shipped
+
+<!-- SHIPPED:START -->
+- [Profile: one gallery, live demos grouped by topic](https://github.com/sergushkincom/sergushkincom/pull/17) · [sergushkincom](https://github.com/sergushkincom/sergushkincom) · 21 Nov 2026
+- [Add live demo link](https://github.com/sergushkincom/redline-supply/pull/2) · [redline-supply](https://github.com/sergushkincom/redline-supply) · 21 Nov 2026
+- [Add a changelog page and New badges](https://github.com/sergushkincom/agentic-ui/pull/35) · [agentic-ui](https://github.com/sergushkincom/agentic-ui) · 21 Nov 2026
+- [Add step inspector, expression field, and pinned output](https://github.com/sergushkincom/agentic-ui/pull/57) · [agentic-ui](https://github.com/sergushkincom/agentic-ui) · 21 Nov 2026
+- [Add wait, connection, and harness components](https://github.com/sergushkincom/agentic-ui/pull/56) · [agentic-ui](https://github.com/sergushkincom/agentic-ui) · 21 Nov 2026
+
+Live demos: [redline-supply](https://redline-supply-seven.vercel.app) · [agentic-ui](https://agentic-ui-docs.vercel.app)
+<!-- SHIPPED:END -->
+
 ### By topic
 
 The whole list. Open a theme. A live link is here only when that demo is up.
@@ -156,6 +168,14 @@ In my prototypes a coding agent writes the first version and most of the fixes. 
 - [World Parts, round 2](https://github.com/sergushkincom/world-parts/blob/main/AGENT_LOG.md#round-2--plant-overview-search-room-transition--2026-11-06): the hash router crashed when you clicked a room, a supplier's real brand name was in the data, and the plan scrolled sideways at 375 px. Each found in the browser, each fixed.
 - [Grocery first order](https://github.com/sergushkincom/grocery-first-order-prototype/blob/main/AGENT_LOG.md): 14 rounds, each one marked *agent mistake*, *my decision* or *by hand*. In one the agent filled the cart with six items without asking; now it suggests and the customer confirms. If it touches money, a person confirms.
 - [Rules I'd give the agent up front next time](https://github.com/sergushkincom/grocery-first-order-prototype/blob/main/AGENT_LOG.md#rules-id-give-the-agent-up-front-next-time): business values only from config, never add to the cart without confirmation, check every change in the browser.
+
+### Ideas I want to try
+
+<!-- IDEAS:START -->
+- [Idea: Section cut (срез сцены)](https://github.com/sergushkincom/world-parts/issues/34) · [world-parts](https://github.com/sergushkincom/world-parts)
+
+Comment on an issue if you want to talk about it.
+<!-- IDEAS:END -->
 
 ### Career, briefly
 
