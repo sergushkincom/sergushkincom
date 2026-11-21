@@ -41,8 +41,8 @@ I design and build interfaces for software that acts on its own: an AI agent doe
       </details>
     </td>
     <td width="50%" valign="top">
-      <a href="https://battery-because.vercel.app/assets/lechfeld-1/why?role=owner&portfolio=kestrel&period=7d&loc=en-GB&date=2026-11-18"><img src="assets/cards/card-battery-because.jpg" alt="Because: a battery console where the revenue comes with a reason" width="100%"></a>
-      <br><b>Because</b> · <a href="https://battery-because.vercel.app/assets/lechfeld-1/why?role=owner&portfolio=kestrel&period=7d&loc=en-GB&date=2026-11-18">Live</a> · <a href="https://github.com/sergushkincom/battery-because">Repo</a>
+      <a href="https://battery-because.vercel.app/assets/lechfeld-1/why?role=owner&amp;portfolio=kestrel&amp;period=7d&amp;loc=en-GB&amp;date=2026-11-18"><img src="assets/cards/card-battery-because.jpg" alt="Because: a battery console where the revenue comes with a reason" width="100%"></a>
+      <br><b>Because</b> · <a href="https://battery-because.vercel.app/assets/lechfeld-1/why?role=owner&amp;portfolio=kestrel&amp;period=7d&amp;loc=en-GB&amp;date=2026-11-18">Live</a> · <a href="https://github.com/sergushkincom/battery-because">Repo</a>
       <br><details><summary>Watch it move</summary>
       <img src="assets/gifs/battery-because.gif" alt="The revenue bridge drawing itself, bar by bar." width="100%">
       </details>
