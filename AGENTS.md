@@ -10,7 +10,7 @@ Read [docs/PROJECT.md](docs/PROJECT.md) before editing `README.md`. This file is
 - Do not link healthcare-ui.
 - Do not link a repository or page that 404s when signed out. On 21 Nov 2026 that included the site theme and clia-prototype.
 - "This week" is one or two sentences in his own words. Keep the HTML comment that starts with `this-week`. Do not put a `[DENYS: ...]` note on that line.
-- New gallery images: open the live page, capture about 1600×1120, save an optimized JPEG as `assets/card-<name>.jpg`. Reuse a `assets/card-*.jpg` that already exists.
+- Gallery cards are 1280×640 in `assets/cards/`. Two columns, not three. World Parts stays the 3D storeroom card, fitted to that size. The clips are GIFs in `assets/gifs/`, under "Watch it move". How to regenerate either one is in [docs/PROJECT.md](docs/PROJECT.md).
 - Use `<picture>` only when the light and dark files differ.
 - Plain sentences. No stats widgets.
 - Do not name employers that are not already in the career list.

@@ -17,31 +17,51 @@ I design and build interfaces for software that acts on its own: an AI agent doe
 
 <table>
   <tr>
-    <td width="33%" valign="top">
-      <a href="https://world-parts.vercel.app"><img src="assets/card-world-parts.jpg" alt="World Parts: find a spare part in a segmented 3D world"></a>
+    <td width="50%" valign="top">
+      <a href="https://world-parts.vercel.app"><img src="assets/cards/card-world-parts.jpg" alt="World Parts: the storeroom in 3D, with the racks lifted out of the scan" width="100%"></a>
       <br><b>World Parts</b> · <a href="https://world-parts.vercel.app">Live</a> · <a href="https://github.com/sergushkincom/world-parts">Repo</a>
+      <br><details><summary>Watch it move</summary>
+      <img src="assets/gifs/world-parts.gif" alt="The view moves from the storeroom into the corridor." width="100%">
+      </details>
     </td>
-    <td width="33%" valign="top">
-      <a href="https://agentic-ui-docs.vercel.app"><img src="assets/card-agentic-ui.jpg" alt="agentic-ui: what the agent is doing, how sure it is, and a field a person can take back"></a>
+    <td width="50%" valign="top">
+      <a href="https://agentic-ui-docs.vercel.app"><img src="assets/cards/card-agentic-ui.jpg" alt="agentic-ui: how sure the agent is, and a cost centre a person can change" width="100%"></a>
       <br><b>agentic-ui</b> · <a href="https://agentic-ui-docs.vercel.app">Live</a> · <a href="https://github.com/sergushkincom/agentic-ui">Repo</a>
-    </td>
-    <td width="33%" valign="top">
-      <a href="https://redline-supply-seven.vercel.app/requests/cmp_rohs/review"><img src="assets/card-redline-supply.jpg" alt="Redline Supply: the current value beside the supplier's answer, with a source and a yes or no on each row"></a>
-      <br><b>Redline Supply</b> · <a href="https://redline-supply-seven.vercel.app/requests/cmp_rohs/review">Live</a> · <a href="https://github.com/sergushkincom/redline-supply">Repo</a>
+      <br><details><summary>Watch it move</summary>
+      <img src="assets/gifs/agentic-ui.gif" alt="An agent run checking an invoice, step by step." width="100%">
+      </details>
     </td>
   </tr>
   <tr>
-    <td width="33%" valign="top">
-      <a href="https://battery-because.vercel.app/assets/lechfeld-1/why?role=owner&portfolio=kestrel&period=7d&loc=en-GB&date=2026-11-18"><img src="assets/card-because.jpg" alt="Because: a revenue bridge for a battery, and the sentences that use those same euros"></a>
+    <td width="50%" valign="top">
+      <a href="https://redline-supply-seven.vercel.app/requests/cmp_rohs/review"><img src="assets/cards/card-redline-supply.jpg" alt="Redline Supply: the current value beside the supplier's answer" width="100%"></a>
+      <br><b>Redline Supply</b> · <a href="https://redline-supply-seven.vercel.app/requests/cmp_rohs/review">Live</a> · <a href="https://github.com/sergushkincom/redline-supply">Repo</a>
+      <br><details><summary>Watch it move</summary>
+      <img src="assets/gifs/redline-supply.gif" alt="Approving an IBAN that needs a second person." width="100%">
+      </details>
+    </td>
+    <td width="50%" valign="top">
+      <a href="https://battery-because.vercel.app/assets/lechfeld-1/why?role=owner&portfolio=kestrel&period=7d&loc=en-GB&date=2026-11-18"><img src="assets/cards/card-battery-because.jpg" alt="Because: a battery console where the revenue comes with a reason" width="100%"></a>
       <br><b>Because</b> · <a href="https://battery-because.vercel.app/assets/lechfeld-1/why?role=owner&portfolio=kestrel&period=7d&loc=en-GB&date=2026-11-18">Live</a> · <a href="https://github.com/sergushkincom/battery-because">Repo</a>
+      <br><details><summary>Watch it move</summary>
+      <img src="assets/gifs/battery-because.gif" alt="The revenue bridge drawing itself, bar by bar." width="100%">
+      </details>
     </td>
-    <td width="33%" valign="top">
-      <a href="https://denys-workflow-canvas.vercel.app/experiments/workflow-canvas"><img src="assets/card-workflow-canvas.jpg" alt="Workflow canvas: a workflow builder that is honest about not knowing"></a>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://denys-workflow-canvas.vercel.app/experiments/workflow-canvas"><img src="assets/cards/card-workflow-canvas.jpg" alt="Workflow canvas: a flow that stops when it is not sure" width="100%"></a>
       <br><b>Workflow canvas</b> · <a href="https://denys-workflow-canvas.vercel.app/experiments/workflow-canvas">Live</a> · <a href="https://github.com/sergushkincom/workflow-canvas">Repo</a>
+      <br><details><summary>Watch it move</summary>
+      <img src="assets/gifs/workflow-canvas.gif" alt="A test run that stops at 62 percent and asks before it routes the ticket." width="100%">
+      </details>
     </td>
-    <td width="33%" valign="top">
-      <a href="https://denys-knowledge-atlas.vercel.app"><img src="assets/card-knowledge-atlas.jpg" alt="Knowledge Atlas: see where an AI was guessing, and overrule it"></a>
+    <td width="50%" valign="top">
+      <a href="https://denys-knowledge-atlas.vercel.app"><img src="assets/cards/card-knowledge-atlas.jpg" alt="Knowledge Atlas: notes on a graph, and the ones the AI was unsure about" width="100%"></a>
       <br><b>Knowledge Atlas</b> · <a href="https://denys-knowledge-atlas.vercel.app">Live</a> · <a href="https://github.com/sergushkincom/knowledge-atlas">Repo</a>
+      <br><details><summary>Watch it move</summary>
+      <img src="assets/gifs/knowledge-atlas.gif" alt="Re-sorting the notes. Corrections stay where you put them." width="100%">
+      </details>
     </td>
   </tr>
 </table>
