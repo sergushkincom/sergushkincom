@@ -50,9 +50,17 @@ I design and build interfaces for software that acts on its own: an AI agent doe
 |---|---|---|
 | [Funding radar](https://github.com/sergushkincom/funding-radar) | Which Munich-area startups have fresh money, an open role, and a reason to talk now? | [Live demo →](https://funding-radar-two.vercel.app) |
 | [Grocery first order](https://github.com/sergushkincom/grocery-first-order-prototype) | What if a new customer saw the deal before building the cart? | [Live demo →](https://grocery-first-order-prototype.vercel.app) |
-| [Keyword Tracker](https://github.com/sergushkincom/keyword-tracker) | What if the rank table is the chart? | [Live demo →](https://keyword-tracker-nine.vercel.app) |
+| [Keyword Tracker](https://github.com/sergushkincom/keyword-tracker) | What if the rank table is the chart? | [Live demo →](https://denys-keyword-tracker.vercel.app) |
 | [Design engineering shelf](https://github.com/sergushkincom/design-engineering-shelf) | Which books, courses and people actually help a designer who builds? | [Read the shelf →](https://github.com/sergushkincom/design-engineering-shelf#readme) |
 | [DX Grid Inspector](https://github.com/JennHull-builds/dx-grid-inspector) (contribution) | Can a colour field refuse a value the browser can't read? | [Open PR →](https://github.com/JennHull-builds/dx-grid-inspector/pull/7) |
+
+### How I work with AI agents
+
+In my prototypes a coding agent writes the first version and most of the fixes. I review each round in the browser, at 375 px too, and keep a log: what I asked, what the agent got wrong, what I decided myself, and the commit for each.
+
+- [World Parts, round 2](https://github.com/sergushkincom/world-parts/blob/main/AGENT_LOG.md#round-2--plant-overview-search-room-transition--2026-11-06): the hash router crashed when you clicked a room, a supplier's real brand name was in the data, and the plan scrolled sideways at 375 px. Each found in the browser, each fixed.
+- [Grocery first order](https://github.com/sergushkincom/grocery-first-order-prototype/blob/main/AGENT_LOG.md): 14 rounds, each one marked *agent mistake*, *my decision* or *by hand*. In one the agent filled the cart with six items without asking; now it suggests and the customer confirms. If it touches money, a person confirms.
+- [Rules I'd give the agent up front next time](https://github.com/sergushkincom/grocery-first-order-prototype/blob/main/AGENT_LOG.md#rules-id-give-the-agent-up-front-next-time): business values only from config, never add to the cart without confirmation, check every change in the browser.
 
 ### Career, briefly
 
