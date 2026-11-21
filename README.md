@@ -6,6 +6,37 @@
 </picture>
 </a>
 
+<table>
+  <tr>
+    <td width="33%" valign="top">
+      <a href="https://agentic-ui-docs.vercel.app"><img src="assets/collage/agentic-ui.jpg" alt="agentic-ui: what the agent is doing, how sure it is, and a field a person can take back"></a>
+      <br><a href="https://agentic-ui-docs.vercel.app"><b>agentic-ui</b></a>
+    </td>
+    <td width="33%" valign="top">
+      <a href="https://world-parts.vercel.app/?room=storeroom&object=rack&part=BRG-6305"><img src="assets/collage/world-parts.jpg" alt="World Parts: the storeroom in 3D, a rack lifted out with its bins"></a>
+      <br><a href="https://world-parts.vercel.app/?room=storeroom&object=rack&part=BRG-6305"><b>World Parts</b></a>
+    </td>
+    <td width="33%" valign="top">
+      <a href="https://denys-knowledge-atlas.vercel.app"><img src="assets/collage/knowledge-atlas.jpg" alt="Knowledge Atlas: notes grouped by an AI, with the low-confidence ones marked"></a>
+      <br><a href="https://denys-knowledge-atlas.vercel.app"><b>Knowledge Atlas</b></a>
+    </td>
+  </tr>
+  <tr>
+    <td width="33%" valign="top">
+      <a href="https://denys-workflow-canvas.vercel.app/experiments/workflow-canvas"><img src="assets/collage/workflow-canvas.jpg" alt="Workflow canvas: a ticket flow that stops and asks when it is not sure"></a>
+      <br><a href="https://denys-workflow-canvas.vercel.app/experiments/workflow-canvas"><b>Workflow canvas</b></a>
+    </td>
+    <td width="33%" valign="top">
+      <a href="https://agentic-ux-lab.vercel.app"><img src="assets/collage/agentic-ux-lab.jpg" alt="Agentic UX Lab: a workflow that waits, and a widget for a finite AI allowance"></a>
+      <br><a href="https://agentic-ux-lab.vercel.app"><b>Agentic UX Lab</b></a>
+    </td>
+    <td width="33%" valign="top">
+      <a href="https://grocery-first-order-prototype.vercel.app"><img src="assets/collage/grocery.jpg" alt="Grocery first order: the 10 euro start credit, before the cart"></a>
+      <br><a href="https://grocery-first-order-prototype.vercel.app"><b>Grocery first order</b></a>
+    </td>
+  </tr>
+</table>
+
 I design and build interfaces for software that acts on its own: an AI agent does part of the work, and a person stays in charge.
 14 years on complex systems: ERP, B2B SaaS, AI workflows. When a question is about latency, autonomy or trust, a static mock can't answer it, so I build the answer.
 
