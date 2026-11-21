@@ -6,13 +6,9 @@ The page is, in order: the banner, two sentences, the **This week** line, one im
 
 ## This week
 
-The sentence under the introduction is edited by hand. An HTML comment directly above it starts with `this-week`. Rewrite the sentence. Leave the comment, including the `[DENYS: ...]` note, until the sentence is in your own words. After that, the comment can shrink to the one-line reminder. Do not add a GitHub Action.
+The sentence under the introduction is edited by hand. An HTML comment directly above it starts with `this-week` and is only a reminder. Do not put a `[DENYS: ...]` note back on that line. Do not add a GitHub Action.
 
-What that sentence said on 21 Nov 2026, and how it was checked:
-
-- Redline Supply is live. `https://redline-supply-seven.vercel.app` returned 200.
-- The CV page template shipped in the site theme (the template commit, then a pass that left blanks to fill in). `https://sergushkin.com/cv` redirects to `/about`, so the profile does not link it. The theme repository is not a public page, so it is not linked either.
-- agentic-ui's changelog entry for 21 Nov 2026, "Steps in a run", lists 13 components. `https://agentic-ui-docs.vercel.app/changelog` returned 200.
+On 21 Nov 2026 the line says, in first person: Redline Supply is live, agentic-ui got thirteen pieces for showing a running agent, a comment in Agentic UX Lab opens the exact moment in a session, and there is a CV page template for the site. The second sentence is the reason: show what the agent is doing and let a person step in, not just a chat box. The CV template has no public URL (`sergushkin.com/cv` redirects to `/about`, and the theme repository is not a public page), so the line does not link it.
 
 ## By topic
 
