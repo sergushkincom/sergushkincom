@@ -15,7 +15,7 @@ Read [docs/PROJECT.md](docs/PROJECT.md) before editing `README.md`. This file is
 - Pull requests run the same script with `--dry-run`. That checks the markers and does not write the file.
 - Ideas are open issues titled `Idea:`, up to six. Do not enable Discussions.
 - Gallery cards are 1280×640 in `assets/cards/`. Two columns, not three. All six, including World Parts, are the unified cards with the larger app screen. Copy the JPEG as it is. The clips are GIFs in `assets/gifs/`, under "Watch it move". How to regenerate either one is in [docs/PROJECT.md](docs/PROJECT.md).
-- Above the cards, keep the link "Browse all prototypes by topic" to https://projects-gallery.vercel.app.
+- Above the cards, keep the link "Browse all prototypes by topic" to https://projects-gallery-pi.vercel.app.
 - Use `<picture>` only when the light and dark files differ.
 - Plain sentences. No stats widgets.
 - Do not name employers that are not already in the career list.
