@@ -51,13 +51,11 @@ The pictures are 1280×640, two to one. Three columns made that ratio a thin str
 
 Still cards live in `assets/cards/card-<repo>.jpg`. Clips live in `assets/gifs/<repo>.gif`, inside a closed `<details>` whose summary is "Watch it move". The page opens on the still cards. The clip is there when someone asks for it.
 
-World Parts keeps the earlier storeroom card. The unified yellow card is a room photo, and the 3D view is the stronger picture. The old file was 1200×840, so it is fitted into 1280×640 on the card's own pale background and saved as `assets/cards/card-world-parts.jpg`. Do not replace it with the yellow card.
-
-The other five are the unified cards, already 1280×640, set in Red Hat Display, one colour each: `card-agentic-ui.jpg`, `card-redline-supply.jpg`, `card-battery-because.jpg`, `card-workflow-canvas.jpg`, `card-knowledge-atlas.jpg`. Copy the JPEG as it is. Do not scale it back to 1200×840.
+All six are the unified cards, already 1280×640, set in Red Hat Display, one colour each, with the app screen large enough to read. That includes World Parts. The files are `card-world-parts.jpg`, `card-agentic-ui.jpg`, `card-redline-supply.jpg`, `card-battery-because.jpg`, `card-workflow-canvas.jpg`, and `card-knowledge-atlas.jpg`. Copy the JPEG as it is. Do not scale it, and do not put the older storeroom crop back.
 
 ### Regenerating a card
 
-The unified set is drawn outside this repo. To refresh one, replace the file in `assets/cards/` and keep the name. If you add a project to the gallery, it needs a 1280×640 card in that folder or the row heights will not match. The old 1200×840 files are gone.
+The unified set is drawn outside this repo. The current files are the larger-screen versions. To refresh one, replace the file in `assets/cards/` and keep the name. If you add a project to the gallery, it needs a 1280×640 card in that folder or the row heights will not match. The old 1200×840 files are gone.
 
 ### Regenerating a clip
 

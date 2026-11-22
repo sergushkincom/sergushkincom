@@ -20,7 +20,7 @@ I design and build interfaces for software that acts on its own: an AI agent doe
 <table>
   <tr>
     <td width="50%" valign="top">
-      <a href="https://world-parts.vercel.app"><img src="assets/cards/card-world-parts.jpg" alt="World Parts: the storeroom in 3D, with the racks lifted out of the scan" width="100%"></a>
+      <a href="https://world-parts.vercel.app"><img src="assets/cards/card-world-parts.jpg" alt="World Parts: a pump lifted out of the workshop scan, with the parts in that unit" width="100%"></a>
       <br><b>World Parts</b> · <a href="https://world-parts.vercel.app">Live</a> · <a href="https://github.com/sergushkincom/world-parts">Repo</a>
       <br><details><summary>Watch it move</summary>
       <img src="assets/gifs/world-parts.gif" alt="The view moves from the storeroom into the corridor." width="100%">
