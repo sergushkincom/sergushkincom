@@ -14,7 +14,7 @@ Read [docs/PROJECT.md](docs/PROJECT.md) before editing `README.md`. This file is
 - The Recently shipped Action runs Monday at 06:00 UTC and when someone starts it by hand. It uses `GITHUB_TOKEN` and the public search API, and it commits `README.md` as github-actions[bot] only when the generated text changed.
 - Pull requests run the same script with `--dry-run`. That checks the markers and does not write the file.
 - Ideas are open issues titled `Idea:`, up to six. Do not enable Discussions.
-- Gallery cards are 1280×640 in `assets/cards/`. Two columns, not three. World Parts stays the 3D storeroom card, fitted to that size. The clips are GIFs in `assets/gifs/`, under "Watch it move". How to regenerate either one is in [docs/PROJECT.md](docs/PROJECT.md).
+- Gallery cards are 1280×640 in `assets/cards/`. Two columns, not three. All six, including World Parts, are the unified cards with the larger app screen. Copy the JPEG as it is. The clips are GIFs in `assets/gifs/`, under "Watch it move". How to regenerate either one is in [docs/PROJECT.md](docs/PROJECT.md).
 - Above the cards, keep the link "Browse all prototypes by topic" to https://projects-gallery.vercel.app.
 - Use `<picture>` only when the light and dark files differ.
 - Plain sentences. No stats widgets.
