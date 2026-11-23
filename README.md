@@ -9,6 +9,8 @@
 I design and build interfaces for software that acts on its own: an AI agent does part of the work, and a person stays in charge.
 14 years on complex systems: ERP, B2B SaaS, AI workflows. When a question is about latency, autonomy or trust, a static mock can't answer it, so I build the answer.
 
+**Open to roles.** Design engineer or principal product designer, permanent, based in Munich. [About and CV](https://sergushkin.com/about)
+
 <!-- this-week: edit the next line by hand. No GitHub Action. See docs/PROJECT.md. -->
 
 **This week.** I shipped the [Redline Supply](https://redline-supply-seven.vercel.app) prototype, gave [agentic-ui](https://agentic-ui-docs.vercel.app/changelog) thirteen n8n-style pieces for showing a running agent, made a comment in [Agentic UX Lab](https://agentic-ux-lab.vercel.app) open the exact moment in a session, and put together a CV page template for the site. I want the agent UI to show what the agent is doing and let you step in, not just a chat box.
