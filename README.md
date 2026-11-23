@@ -15,7 +15,7 @@ I design and build interfaces for software that acts on its own: an AI agent doe
 
 ### Selected work
 
-<p align="center"><a href="https://projects-gallery.vercel.app"><b>Browse all prototypes by topic</b></a></p>
+<p align="center"><a href="https://projects-gallery-pi.vercel.app"><b>Browse all prototypes by topic</b></a></p>
 
 <table>
   <tr>

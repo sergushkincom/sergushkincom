@@ -45,7 +45,7 @@ To add a project, copy a `<tr>` into the group it belongs to. Keep the sentence 
 
 ## Gallery
 
-Six cells, two columns: World Parts, agentic-ui, Redline Supply, Because, Workflow canvas, Knowledge Atlas. Above the cards is the link "Browse all prototypes by topic", to https://projects-gallery.vercel.app. That page filters the prototypes. Keep the link. It is not a second image grid.
+Six cells, two columns: World Parts, agentic-ui, Redline Supply, Because, Workflow canvas, Knowledge Atlas. Above the cards is the link "Browse all prototypes by topic", to https://projects-gallery-pi.vercel.app. That page filters the prototypes. Keep the link. It is not a second image grid.
 
 The pictures are 1280×640, two to one. Three columns made that ratio a thin strip, too short to read the type, so each row is two cells. Every image is `width="100%"`. The cards bring their own background, so the same files sit on GitHub's light page and dark page without a second set.
 
