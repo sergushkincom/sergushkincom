@@ -71,13 +71,13 @@ I design and build interfaces for software that acts on its own: an AI agent doe
 ### Recently shipped
 
 <!-- SHIPPED:START -->
-- [Profile: one gallery, live demos grouped by topic](https://github.com/sergushkincom/sergushkincom/pull/17) · [sergushkincom](https://github.com/sergushkincom/sergushkincom) · 21 Nov 2026
-- [Add live demo link](https://github.com/sergushkincom/redline-supply/pull/2) · [redline-supply](https://github.com/sergushkincom/redline-supply) · 21 Nov 2026
-- [Add a changelog page and New badges](https://github.com/sergushkincom/agentic-ui/pull/35) · [agentic-ui](https://github.com/sergushkincom/agentic-ui) · 21 Nov 2026
-- [Add step inspector, expression field, and pinned output](https://github.com/sergushkincom/agentic-ui/pull/57) · [agentic-ui](https://github.com/sergushkincom/agentic-ui) · 21 Nov 2026
-- [Add wait, connection, and harness components](https://github.com/sergushkincom/agentic-ui/pull/56) · [agentic-ui](https://github.com/sergushkincom/agentic-ui) · 21 Nov 2026
+- [Add an issue form for shelf suggestions](https://github.com/sergushkincom/design-engineering-shelf/pull/9) · [design-engineering-shelf](https://github.com/sergushkincom/design-engineering-shelf) · 23 Nov 2026
+- [Draw the strikethrough and show a two-step meter on review](https://github.com/sergushkincom/redline-supply/pull/3) · [redline-supply](https://github.com/sergushkincom/redline-supply) · 23 Nov 2026
+- [Drop a JSON notes file onto the atlas](https://github.com/sergushkincom/knowledge-atlas/pull/20) · [knowledge-atlas](https://github.com/sergushkincom/knowledge-atlas) · 23 Nov 2026
+- [Show how long the undo toast will stay](https://github.com/sergushkincom/permission-rings/pull/27) · [permission-rings](https://github.com/sergushkincom/permission-rings) · 23 Nov 2026
+- [Show the description when a project card is hovered](https://github.com/sergushkincom/projects-gallery/pull/3) · [projects-gallery](https://github.com/sergushkincom/projects-gallery) · 23 Nov 2026
 
-Live demos: [redline-supply](https://redline-supply-seven.vercel.app) · [agentic-ui](https://agentic-ui-docs.vercel.app)
+Live demos: [redline-supply](https://redline-supply-seven.vercel.app) · [knowledge-atlas](https://denys-knowledge-atlas.vercel.app) · [permission-rings](https://permission-rings.vercel.app) · [projects-gallery](https://projects-gallery-pi.vercel.app)
 <!-- SHIPPED:END -->
 
 ### By topic
